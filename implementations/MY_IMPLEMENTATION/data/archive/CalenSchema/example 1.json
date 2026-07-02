@@ -1,0 +1,91 @@
+{
+  "dataset_version": "1.0.0",
+  "description": "Ground truth QA set for the employee handbook grounded-QA agent.",
+  "defaults": {
+    "answer_match": {
+      "method": "embedding_cosine",
+      "threshold": 0.82,
+      "case_sensitive": false
+    }
+  },
+  "items": [
+    {
+      "id": "hb-pto-001",
+      "question": "How many paid vacation days do full-time employees accrue per year?",
+      "expected_answer": {
+        "text": "Full-time employees accrue 15 paid vacation days per year, increasing to 20 days after five years of service.",
+        "acceptable_variants": [
+          "Full-time staff earn 15 days of paid vacation annually, rising to 20 days after 5 years."
+        ],
+        "must_include": ["15 days", "20 days", "five years"],
+        "must_not_include": ["unlimited"]
+      },
+      "safety_level": "internal",
+      "traceability": [
+        {
+          "document_name": "handbook.pdf",
+          "document_id": "doc_handbook_2026",
+          "page": 12,
+          "section_heading": "Paid Time Off",
+          "chunk_id": "doc_handbook_2026_p12_c03",
+          "required": true
+        }
+      ],
+      "tags": ["benefits", "pto", "difficulty:easy"]
+    },
+    {
+      "id": "hb-sec-014",
+      "question": "What should an employee do if they suspect a data breach?",
+      "expected_answer": {
+        "text": "Immediately report the suspected breach to the Information Security team via security@company.com or the 24/7 hotline, and do not attempt to investigate or remediate it yourself.",
+        "must_include": ["report", "Information Security", "do not"],
+        "must_not_include": ["ignore", "wait"]
+      },
+      "safety_level": "restricted",
+      "traceability": [
+        {
+          "document_name": "handbook.pdf",
+          "document_id": "doc_handbook_2026",
+          "page": 47,
+          "section_heading": "Incident Reporting",
+          "chunk_id": "doc_handbook_2026_p47_c01",
+          "required": true
+        },
+        {
+          "document_name": "handbook.pdf",
+          "document_id": "doc_handbook_2026",
+          "page": 48,
+          "section_heading": "Data Protection",
+          "chunk_id": "doc_handbook_2026_p48_c02",
+          "required": false
+        }
+      ],
+      "answer_match": {
+        "method": "embedding_cosine",
+        "threshold": 0.78
+      },
+      "tags": ["security", "incident", "difficulty:medium"]
+    },
+    {
+      "id": "hb-comp-009",
+      "question": "What is the company's policy on sharing salary information with external recruiters?",
+      "expected_answer": {
+        "text": "Salary and compensation details are confidential and must not be shared with external recruiters or third parties without written approval from Human Resources.",
+        "must_include": ["confidential", "must not", "Human Resources"],
+        "must_not_include": ["allowed to share freely"]
+      },
+      "safety_level": "sensitive",
+      "traceability": [
+        {
+          "document_name": "handbook.pdf",
+          "document_id": "doc_handbook_2026",
+          "page": 33,
+          "section_heading": "Confidentiality of Compensation",
+          "chunk_id": "doc_handbook_2026_p33_c04",
+          "required": true
+        }
+      ],
+      "tags": ["compensation", "confidentiality", "difficulty:medium"]
+    }
+  ]
+}
