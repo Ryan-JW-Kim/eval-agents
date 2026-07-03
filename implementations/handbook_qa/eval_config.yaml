@@ -1,0 +1,44 @@
+# Evaluator selection for the Handbook QA offline evaluation.
+#
+# Toggle which evaluators run without touching code. This file is read by
+# implementations/handbook_qa/evaluators.py (build_evaluators / llm_judge_evaluator)
+# and is used by both evaluate.py (offline experiment) and demo.py (Gradio UI).
+#
+# - Keys mirror the metric names surfaced in Langfuse.
+# - A key that is omitted defaults to enabled (true).
+# - Override the config location with the HANDBOOK_EVAL_CONFIG env var, or the
+#   `--config` flag on `python -m implementations.handbook_qa.evaluate`.
+#
+# NOTE: an LLM-judge call costs a Gemini request per item; disabling judges you
+# do not need is the main lever for cutting evaluation time and cost.
+
+# Core three-axis evaluators (rule-based / difflib; no LLM calls).
+core:
+  answer_correctness: true      # -> answer_similarity, answer_correctness
+  safety_level: true            # -> safety_level_match
+  traceability: true            # -> traceability_recall/_precision/_complete
+
+# Heuristic evaluators (rule-based; no LLM calls).
+heuristic:
+  safety_level_valid: true
+  safety_underrated: true
+  citation_presence: true
+  citation_count: true          # -> citation_count_match
+  keyword_constraints: true     # -> must_include_coverage, must_not_include_clean
+
+# LLM-judge evaluators (one Gemini call each, per item; run concurrently).
+llm_judges:
+  # Output judges (grade the final answer).
+  answer_correctness_judge: true
+  answer_relevance: false
+  answer_completeness: true
+  groundedness: false
+  safety_justification: true
+  refusal_appropriateness: false
+  # Trace judges (grade the reasoning trace).
+  reasoning_coherence: false
+  tool_selection: false
+  query_quality: false
+  evidence_grounded_reasoning: false
+  efficiency: false
+  safety_awareness: false

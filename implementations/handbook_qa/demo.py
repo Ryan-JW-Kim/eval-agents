@@ -19,6 +19,7 @@ Usage:
     python -m implementations.handbook_qa.demo --ground-truth-path <path> --share
 """
 
+import inspect
 import logging
 from pathlib import Path
 from typing import Any
@@ -33,28 +34,7 @@ from implementations.handbook_qa.data.langfuse_upload import (
     _convert_item,
     _load_ground_truth,
 )
-from implementations.handbook_qa.evaluators import (
-    answer_completeness_evaluator,
-    answer_correctness_evaluator,
-    answer_correctness_judge_evaluator,
-    answer_relevance_evaluator,
-    citation_count_evaluator,
-    citation_presence_evaluator,
-    efficiency_evaluator,
-    evidence_grounded_reasoning_evaluator,
-    groundedness_evaluator,
-    keyword_constraints_evaluator,
-    query_quality_evaluator,
-    reasoning_coherence_evaluator,
-    refusal_appropriateness_evaluator,
-    safety_awareness_evaluator,
-    safety_justification_evaluator,
-    safety_level_evaluator,
-    safety_level_valid_evaluator,
-    safety_underrated_evaluator,
-    tool_selection_evaluator,
-    traceability_evaluator,
-)
+from implementations.handbook_qa.evaluators import build_evaluators
 
 
 load_dotenv(verbose=True)
@@ -122,61 +102,32 @@ def _format_value(value: Any) -> str:
     return str(value)
 
 
-def _run_evaluators(output: dict[str, Any], record: dict[str, Any]) -> list[Evaluation]:
+async def _run_evaluators(output: dict[str, Any], record: dict[str, Any]) -> list[Evaluation]:
     """Score an agent ``output`` against a ground-truth ``record``.
 
-    Runs the same item-level graders as the offline experiment -- the three core
-    axes plus the ported heuristic and LLM-judge batteries -- and returns a flat
-    list of :class:`Evaluation` results. Judge evaluators degrade to nothing when
-    the judge is unavailable or the item is out of scope.
+    Runs exactly the evaluators enabled in ``eval_config.yaml`` (the same set the
+    offline experiment uses), so toggling judges in the config is reflected here
+    too. Async evaluators (the concurrent LLM-judge runner) are awaited; each
+    evaluator returns nothing when it is unavailable or out of scope.
     """
     metadata = record["metadata"]
     expected_output = record["expected_output"]
     question = record["input"]
 
-    def _many(result: Evaluation | list[Evaluation]) -> list[Evaluation]:
-        return result if isinstance(result, list) else [result]
-
     results: list[Evaluation] = []
-    # Core three-axis evaluators.
-    results.extend(
-        answer_correctness_evaluator(
-            output=output, expected_output=expected_output, metadata=metadata
+    for evaluator in build_evaluators():
+        outcome = evaluator(
+            input=question,
+            output=output,
+            expected_output=expected_output,
+            metadata=metadata,
         )
-    )
-    results.append(safety_level_evaluator(output=output, metadata=metadata))
-    results.extend(traceability_evaluator(output=output, metadata=metadata))
-    # Heuristic battery.
-    results.append(safety_level_valid_evaluator(output=output, metadata=metadata))
-    results.append(safety_underrated_evaluator(output=output, metadata=metadata))
-    results.append(citation_presence_evaluator(output=output, metadata=metadata))
-    results.append(citation_count_evaluator(output=output, metadata=metadata))
-    results.extend(keyword_constraints_evaluator(output=output, metadata=metadata))
-    # LLM-judge (output + trace). Each returns [] when unavailable / out of scope.
-    for judge in (
-        answer_correctness_judge_evaluator,
-        answer_relevance_evaluator,
-        answer_completeness_evaluator,
-        groundedness_evaluator,
-        safety_justification_evaluator,
-        refusal_appropriateness_evaluator,
-        reasoning_coherence_evaluator,
-        tool_selection_evaluator,
-        query_quality_evaluator,
-        evidence_grounded_reasoning_evaluator,
-        efficiency_evaluator,
-        safety_awareness_evaluator,
-    ):
-        results.extend(
-            _many(
-                judge(
-                    input=question,
-                    output=output,
-                    expected_output=expected_output,
-                    metadata=metadata,
-                )
-            )
-        )
+        if inspect.isawaitable(outcome):
+            outcome = await outcome
+        if isinstance(outcome, list):
+            results.extend(outcome)
+        elif outcome is not None:
+            results.append(outcome)
     return results
 
 
@@ -231,7 +182,7 @@ async def _on_run(
     }
 
     try:
-        evaluations = _run_evaluators(output, record)
+        evaluations = await _run_evaluators(output, record)
         rows = [[e.name, _format_value(e.value), e.comment or ""] for e in evaluations]
     except Exception as exc:  # noqa: BLE001
         logger.exception("Evaluation failed")

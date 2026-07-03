@@ -27,6 +27,7 @@ Usage:
 import asyncio
 import getpass
 import logging
+import os
 import uuid
 from collections import defaultdict
 from datetime import datetime, timezone
@@ -38,28 +39,7 @@ from aieng.agent_evals.evaluation import run_experiment
 from aieng.agent_evals.evaluation.types import ExperimentResult
 from dotenv import load_dotenv
 
-from implementations.handbook_qa.evaluators import (
-    answer_completeness_evaluator,
-    answer_correctness_evaluator,
-    answer_correctness_judge_evaluator,
-    answer_relevance_evaluator,
-    citation_count_evaluator,
-    citation_presence_evaluator,
-    efficiency_evaluator,
-    evidence_grounded_reasoning_evaluator,
-    groundedness_evaluator,
-    keyword_constraints_evaluator,
-    query_quality_evaluator,
-    reasoning_coherence_evaluator,
-    refusal_appropriateness_evaluator,
-    safety_awareness_evaluator,
-    safety_justification_evaluator,
-    safety_level_evaluator,
-    safety_level_valid_evaluator,
-    safety_underrated_evaluator,
-    tool_selection_evaluator,
-    traceability_evaluator,
-)
+from implementations.handbook_qa.evaluators import build_evaluators
 
 
 load_dotenv(verbose=True)
@@ -266,6 +246,7 @@ async def run_evaluation(
     experiment_name: str,
     user_id: str,
     max_concurrency: int = 1,
+    limit: int | None = None,
 ) -> ExperimentResult:
     """Run the handbook QA evaluation experiment.
 
@@ -279,6 +260,9 @@ async def run_evaluation(
         Submitter attributed to every trace in the run (e.g. "jane").
     max_concurrency : int, optional
         Maximum concurrent agent runs, by default 1.
+    limit : int | None, optional
+        If set, evaluate only the first ``limit`` dataset items (useful for
+        quick smoke tests). By default all items are used.
     """
     client_manager = AsyncClientManager.get_instance()
 
@@ -287,42 +271,41 @@ async def run_evaluation(
     # against collisions when the same evaluation is re-run within a second.
     session_id = f"{experiment_name}-{uuid.uuid4().hex[:8]}"
 
+    # Which evaluators actually run is driven by eval_config.yaml.
+    evaluators = build_evaluators()
+    logger.info(
+        "Active evaluators (%d): %s",
+        len(evaluators),
+        ", ".join(getattr(fn, "__name__", str(fn)) for fn in evaluators),
+    )
+
     try:
         logger.info("Starting experiment '%s' on dataset '%s'", experiment_name, dataset_name)
         logger.info("Langfuse session: %s (user: %s)", session_id, user_id)
-        result = run_experiment(
-            dataset_name=dataset_name,
-            name=experiment_name,
-            description="Handbook QA: answer correctness, safety level, and traceability",
-            task=make_agent_task(session_id, user_id),
-            evaluators=[
-                # Core three-axis evaluators.
-                answer_correctness_evaluator,
-                safety_level_evaluator,
-                traceability_evaluator,
-                # Heuristic battery (rule-based, no LLM calls).
-                safety_level_valid_evaluator,
-                safety_underrated_evaluator,
-                citation_presence_evaluator,
-                citation_count_evaluator,
-                keyword_constraints_evaluator,
-                # LLM-judge over the final output.
-                answer_correctness_judge_evaluator,
-                answer_relevance_evaluator,
-                answer_completeness_evaluator,
-                groundedness_evaluator,
-                safety_justification_evaluator,
-                refusal_appropriateness_evaluator,
-                # LLM-judge over the reasoning trace.
-                reasoning_coherence_evaluator,
-                tool_selection_evaluator,
-                query_quality_evaluator,
-                evidence_grounded_reasoning_evaluator,
-                efficiency_evaluator,
-                safety_awareness_evaluator,
-            ],
-            max_concurrency=max_concurrency,
-        )
+        if limit is not None:
+            # Slice the dataset to the first `limit` items and run via the
+            # client-level API. Passing Langfuse DatasetItem objects keeps the
+            # run linked to the dataset in the Langfuse UI.
+            dataset = client_manager.langfuse_client.get_dataset(dataset_name)
+            items = list(dataset.items)[:limit]
+            logger.info("Limiting evaluation to %d of %d dataset item(s)", len(items), len(dataset.items))
+            result = client_manager.langfuse_client.run_experiment(
+                name=experiment_name,
+                description="Handbook QA: answer correctness, safety level, and traceability",
+                data=items,
+                task=make_agent_task(session_id, user_id),
+                evaluators=evaluators,
+                max_concurrency=max_concurrency,
+            )
+        else:
+            result = run_experiment(
+                dataset_name=dataset_name,
+                name=experiment_name,
+                description="Handbook QA: answer correctness, safety level, and traceability",
+                task=make_agent_task(session_id, user_id),
+                evaluators=evaluators,
+                max_concurrency=max_concurrency,
+            )
         logger.info("Experiment complete: %s", result)
 
         # Roll item-level evaluations up into session-level scores.
@@ -354,10 +337,32 @@ async def run_evaluation(
     help="Submitter attributed to every trace in the run (e.g. 'calen'). Defaults to the OS user.",
 )
 @click.option("--max-concurrency", default=1, type=int, help="Maximum concurrent agent runs (default: 1).")
-def cli(dataset_name: str, experiment_name: str | None, user_id: str, max_concurrency: int) -> None:
+@click.option(
+    "--limit",
+    default=None,
+    type=int,
+    help="Evaluate only the first N dataset items (e.g. --limit 10 for a quick smoke test).",
+)
+@click.option(
+    "--config",
+    "config_path",
+    default=None,
+    type=click.Path(exists=True, dir_okay=False),
+    help="Path to an eval-selection YAML (defaults to implementations/handbook_qa/eval_config.yaml).",
+)
+def cli(
+    dataset_name: str,
+    experiment_name: str | None,
+    user_id: str,
+    max_concurrency: int,
+    limit: int | None,
+    config_path: str | None,
+) -> None:
     """Run Handbook QA evaluation using Langfuse experiments."""
+    if config_path:
+        os.environ["HANDBOOK_EVAL_CONFIG"] = config_path
     experiment_name = experiment_name or build_experiment_name(dataset_name)
-    asyncio.run(run_evaluation(dataset_name, experiment_name, user_id, max_concurrency))
+    asyncio.run(run_evaluation(dataset_name, experiment_name, user_id, max_concurrency, limit))
 
 
 if __name__ == "__main__":

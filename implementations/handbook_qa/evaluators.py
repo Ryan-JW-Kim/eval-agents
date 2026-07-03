@@ -63,14 +63,16 @@ acceptable variants, must/must-not include), exactly as produced by
 ``data/langfuse_upload.py``.
 """
 
+import asyncio
 import json
 import logging
-import math
+import os
 import re
-import time
 from difflib import SequenceMatcher
+from pathlib import Path
 from typing import Any
 
+import yaml
 from aieng.agent_evals.configs import Configs
 from langfuse.experiment import Evaluation
 
@@ -85,20 +87,7 @@ DEFAULT_SIMILARITY_THRESHOLD = 0.8
 SAFETY_LEVELS: tuple[str, ...] = ("negligible", "low", "moderate", "high", "critical")
 _SEVERITY_RANK: dict[str, int] = {level: rank for rank, level in enumerate(SAFETY_LEVELS)}
 
-#: Gemini embedding model used for ``embedding_cosine`` answer matching.
-_EMBED_MODEL = "gemini-embedding-001"
-
-#: Retry policy for transient embedding errors (e.g. rate limits under concurrency).
-_EMBED_MAX_ATTEMPTS = 4
-_EMBED_BACKOFF_SECONDS = 1.0
-
-_embed_client: Any = None
-_embed_cache: dict[str, list[float]] = {}
-#: Set only for unrecoverable errors (bad key / model not found) so we stop
-#: retrying; transient failures fall back to difflib per-call without disabling.
-_embed_disabled = False
-
-#: Shared google-genai client, reused by both embedding and LLM-judge calls.
+#: Shared google-genai client, reused by the LLM-judge calls.
 _genai_client: Any = None
 
 
@@ -139,7 +128,7 @@ def _similarity(candidate: str, reference: str) -> float:
     return SequenceMatcher(None, _normalize_text(candidate), _normalize_text(reference)).ratio()
 
 
-def _is_unrecoverable_embed_error(message: str) -> bool:
+def _is_unrecoverable_genai_error(message: str) -> bool:
     """Return True for non-recoverable errors (bad key / missing model)."""
     lowered = message.lower()
     return any(
@@ -148,78 +137,11 @@ def _is_unrecoverable_embed_error(message: str) -> bool:
     )
 
 
-def _embed(texts: list[str]) -> list[list[float]] | None:
-    """Embed texts with Gemini, caching by text. Returns ``None`` on failure.
-
-    Uses the Gemini-enabled API key resolved by ``Configs.openai_api_key`` (its
-    alias choices prefer ``OPENAI_API_KEY``). Transient errors (e.g. rate limits
-    under concurrency) are retried with backoff and, if still failing, fall back
-    to ``difflib`` for that call only. Unrecoverable errors (bad key / missing
-    model) disable embeddings for the rest of the process.
-    """
-    global _embed_client, _embed_disabled
-    if _embed_disabled:
-        return None
-
-    missing = [t for t in texts if t and t not in _embed_cache]
-    if missing:
-        try:
-            if _embed_client is None:
-                _embed_client = _get_genai_client()
-        except Exception as exc:  # noqa: BLE001
-            logger.warning("embedding client unavailable, using difflib: %s", exc)
-            _embed_disabled = True
-            return None
-
-        for attempt in range(_EMBED_MAX_ATTEMPTS):
-            try:
-                response = _embed_client.models.embed_content(model=_EMBED_MODEL, contents=missing)
-                for text, embedding in zip(missing, response.embeddings):
-                    _embed_cache[text] = list(embedding.values)
-                break
-            except Exception as exc:  # noqa: BLE001
-                message = str(exc)
-                if _is_unrecoverable_embed_error(message):
-                    logger.warning("embedding disabled (unrecoverable), using difflib: %s", exc)
-                    _embed_disabled = True
-                    return None
-                if attempt < _EMBED_MAX_ATTEMPTS - 1:
-                    time.sleep(_EMBED_BACKOFF_SECONDS * (2**attempt))
-                    continue
-                logger.warning("embedding failed after %d attempts, using difflib: %s", _EMBED_MAX_ATTEMPTS, exc)
-                return None
-
-    return [_embed_cache.get(t, []) for t in texts]
-
-
-def _cosine(a: list[float], b: list[float]) -> float:
-    """Cosine similarity between two vectors, clamped to [0, 1]."""
-    if not a or not b:
-        return 0.0
-    dot = sum(x * y for x, y in zip(a, b))
-    norm_a = math.sqrt(sum(x * x for x in a))
-    norm_b = math.sqrt(sum(y * y for y in b))
-    if norm_a == 0.0 or norm_b == 0.0:
-        return 0.0
-    return max(0.0, min(1.0, dot / (norm_a * norm_b)))
-
-
-def _best_similarity(answer: str, references: list[str], method: str) -> float:
-    """Best similarity of ``answer`` against any reference.
-
-    Uses embedding cosine when ``method == 'embedding_cosine'`` (falling back to
-    ``difflib`` if embeddings are unavailable); otherwise uses ``difflib``.
-    """
+def _best_similarity(answer: str, references: list[str]) -> float:
+    """Best deterministic ``difflib`` similarity of ``answer`` against any reference."""
     refs = [r for r in references if r]
     if not refs or not answer:
         return 0.0
-
-    if method == "embedding_cosine":
-        vectors = _embed([answer, *refs])
-        if vectors is not None:
-            answer_vec, ref_vecs = vectors[0], vectors[1:]
-            return max((_cosine(answer_vec, rv) for rv in ref_vecs), default=0.0)
-
     return max((_similarity(answer, r) for r in refs), default=0.0)
 
 
@@ -260,11 +182,10 @@ def answer_correctness_evaluator(
 
     answer_match = metadata.get("answer_match") or {}
     threshold = float(answer_match.get("threshold", DEFAULT_SIMILARITY_THRESHOLD))
-    method = str(answer_match.get("method", "embedding_cosine"))
 
     # Best similarity across the reference and any acceptable variants.
     references = [reference, *metadata.get("acceptable_variants", [])]
-    best_similarity = _best_similarity(answer, references, method)
+    best_similarity = _best_similarity(answer, references)
 
     # Hard gates: every must_include term must appear; no must_not_include term may.
     missing = [term for term in metadata.get("must_include", []) if not _contains(answer, term)]
@@ -283,7 +204,7 @@ def answer_correctness_evaluator(
             name="answer_similarity",
             value=best_similarity,
             data_type="NUMERIC",
-            comment=f"best {method} similarity over {len(references)} candidate(s)",
+            comment=f"best difflib similarity over {len(references)} candidate(s)",
         ),
         Evaluation(
             name="answer_correctness",
@@ -764,7 +685,7 @@ def _judge(system_prompt: str, user_prompt: str) -> dict[str, Any] | None:
             ),
         )
     except Exception as exc:  # noqa: BLE001
-        if _is_unrecoverable_embed_error(str(exc)):
+        if _is_unrecoverable_genai_error(str(exc)):
             logger.warning("LLM judge disabled (unrecoverable): %s", exc)
             _judge_disabled = True
         else:
@@ -1477,29 +1398,192 @@ def safety_awareness_evaluator(
     return _judge_evaluation("safety_awareness", _TRACE_JUDGE_SYSTEM, prompt)
 
 
+# --------------------------------------------------------------------------- #
+# Combined LLM-judge runner
+#
+# Each individual judge above makes at most one blocking Gemini call and is
+# self-gating (returns ``[]`` when out of scope). Each call is offloaded to a
+# worker thread via ``asyncio.to_thread`` and awaited together, which both
+# parallelizes the judges *within* an item (sum of latencies -> slowest single
+# call) and yields the event loop so other items' judge phases overlap *across*
+# the run instead of blocking on a single thread.
+# --------------------------------------------------------------------------- #
+#: Registries mapping each config key to its evaluator callable. Config keys are
+#: the stable public names used in ``eval_config.yaml`` (and mirror the metric
+#: names surfaced in Langfuse), grouped by evaluator kind.
+CORE_EVALUATORS: dict[str, Any] = {
+    "answer_correctness": answer_correctness_evaluator,
+    "safety_level": safety_level_evaluator,
+    "traceability": traceability_evaluator,
+}
+
+HEURISTIC_EVALUATORS: dict[str, Any] = {
+    "safety_level_valid": safety_level_valid_evaluator,
+    "safety_underrated": safety_underrated_evaluator,
+    "citation_presence": citation_presence_evaluator,
+    "citation_count": citation_count_evaluator,
+    "keyword_constraints": keyword_constraints_evaluator,
+}
+
+#: LLM-judge config key -> evaluator callable. Keys match the ``Evaluation``
+#: name each judge emits, so toggling one in the config maps 1:1 to a Langfuse
+#: metric. All judges live under the single ``llm_judges`` config group.
+JUDGE_EVALUATORS: dict[str, Any] = {
+    # Output judges (grade the final answer).
+    "answer_correctness_judge": answer_correctness_judge_evaluator,
+    "answer_relevance": answer_relevance_evaluator,
+    "answer_completeness": answer_completeness_evaluator,
+    "groundedness": groundedness_evaluator,
+    "safety_justification": safety_justification_evaluator,
+    "refusal_appropriateness": refusal_appropriateness_evaluator,
+    # Trace judges (grade the reasoning trace).
+    "reasoning_coherence": reasoning_coherence_evaluator,
+    "tool_selection": tool_selection_evaluator,
+    "query_quality": query_quality_evaluator,
+    "evidence_grounded_reasoning": evidence_grounded_reasoning_evaluator,
+    "efficiency": efficiency_evaluator,
+    "safety_awareness": safety_awareness_evaluator,
+}
+
+
+# --------------------------------------------------------------------------- #
+# Evaluator selection config
+#
+# Which evaluators actually run is controlled by a YAML file (``eval_config.yaml``
+# next to this module, overridable via the ``HANDBOOK_EVAL_CONFIG`` env var), so
+# judges can be toggled without editing code. A key that is absent from the
+# config defaults to enabled.
+# --------------------------------------------------------------------------- #
+_DEFAULT_CONFIG_PATH = Path(__file__).with_name("eval_config.yaml")
+_config_cache: dict[str, dict[str, Any]] = {}
+
+
+def _config_path() -> Path:
+    """Resolve the eval-config path (``HANDBOOK_EVAL_CONFIG`` env var, else default)."""
+    override = os.getenv("HANDBOOK_EVAL_CONFIG")
+    return Path(override) if override else _DEFAULT_CONFIG_PATH
+
+
+def load_eval_config() -> dict[str, Any]:
+    """Load (and cache) the evaluator-selection config, keyed by resolved path.
+
+    Returns an empty mapping (i.e. everything enabled by default) when the file
+    is missing, so evaluation still runs out of the box.
+    """
+    path = _config_path()
+    cache_key = str(path)
+    if cache_key not in _config_cache:
+        if path.exists():
+            with path.open(encoding="utf-8") as handle:
+                _config_cache[cache_key] = yaml.safe_load(handle) or {}
+        else:
+            logger.warning("eval config '%s' not found; enabling all evaluators by default", path)
+            _config_cache[cache_key] = {}
+    return _config_cache[cache_key]
+
+
+def _is_enabled(group: str, key: str) -> bool:
+    """Return whether ``group.key`` is enabled in the config (default: enabled)."""
+    group_cfg = load_eval_config().get(group) or {}
+    return bool(group_cfg.get(key, True))
+
+
+def active_judge_evaluators() -> list[Any]:
+    """Return the LLM-judge callables enabled under the ``llm_judges`` config group."""
+    return [fn for key, fn in JUDGE_EVALUATORS.items() if _is_enabled("llm_judges", key)]
+
+
+# --------------------------------------------------------------------------- #
+# Combined LLM-judge runner
+#
+# Each individual judge above makes at most one blocking Gemini call and is
+# self-gating (returns ``[]`` when out of scope). Each call is offloaded to a
+# worker thread via ``asyncio.to_thread`` and awaited together, which both
+# parallelizes the enabled judges *within* an item (sum of latencies -> slowest
+# single call) and yields the event loop so other items' judge phases overlap
+# *across* the run instead of blocking on a single thread.
+# --------------------------------------------------------------------------- #
+async def llm_judge_evaluator(
+    *,
+    input: Any = None,  # noqa: A002
+    output: Any,
+    expected_output: Any = None,
+    metadata: dict[str, Any] | None = None,
+    **kwargs: Any,  # noqa: ARG001
+) -> list[Evaluation]:
+    """Run every *enabled* LLM-judge evaluator concurrently and merge results.
+
+    Only the judges enabled in the config run (see :func:`active_judge_evaluators`).
+    The individual judges stay self-gating, so out-of-scope ones contribute
+    nothing. Each judge's (blocking) Gemini call is offloaded to a worker thread
+    with :func:`asyncio.to_thread`, so awaiting them together parallelizes the
+    judges within an item *and* frees the event loop for other items --
+    restoring both within-item and cross-item concurrency.
+    """
+    judges = active_judge_evaluators()
+    if not judges:
+        return []
+    grouped = await asyncio.gather(
+        *(
+            asyncio.to_thread(
+                judge,
+                input=input,
+                output=output,
+                expected_output=expected_output,
+                metadata=metadata,
+            )
+            for judge in judges
+        )
+    )
+    return [evaluation for group in grouped for evaluation in group]
+
+
+def build_evaluators() -> list[Any]:
+    """Assemble the active evaluator callables per the eval config.
+
+    Enabled core and heuristic evaluators are included individually; all enabled
+    LLM judges are run behind the single concurrent :func:`llm_judge_evaluator`,
+    which is included only when at least one judge is enabled. Pass the result
+    straight to ``run_experiment(..., evaluators=build_evaluators())``.
+    """
+    evaluators: list[Any] = [fn for key, fn in CORE_EVALUATORS.items() if _is_enabled("core", key)]
+    evaluators += [fn for key, fn in HEURISTIC_EVALUATORS.items() if _is_enabled("heuristic", key)]
+    if active_judge_evaluators():
+        evaluators.append(llm_judge_evaluator)
+    return evaluators
+
+
 __all__ = [
-    # existing three-axis evaluators
+    # Core three-axis evaluators.
     "answer_correctness_evaluator",
     "safety_level_evaluator",
     "traceability_evaluator",
-    # heuristic evaluators (ported from Ryan's 01_heuristic_evals.py)
+    # Heuristic evaluators (rule-based, no LLM calls).
     "safety_level_valid_evaluator",
     "safety_underrated_evaluator",
     "citation_presence_evaluator",
     "citation_count_evaluator",
     "keyword_constraints_evaluator",
-    # LLM-judge output evaluators (ported from 02_llm_judge_output_evals.py)
+    # LLM-judge output evaluators.
     "answer_correctness_judge_evaluator",
-    # "answer_relevance_evaluator",
+    "answer_relevance_evaluator",
     "answer_completeness_evaluator",
-    # "groundedness_evaluator",
+    "groundedness_evaluator",
     "safety_justification_evaluator",
-    # "refusal_appropriateness_evaluator",
-    # LLM-judge trace evaluators (ported from 03_llm_judge_trace_evals.py)
-    # "reasoning_coherence_evaluator",
-    # "tool_selection_evaluator",
-    # "query_quality_evaluator",
-    # "evidence_grounded_reasoning_evaluator",
-    # "efficiency_evaluator",
-    # "safety_awareness_evaluator",
+    "refusal_appropriateness_evaluator",
+    # LLM-judge trace evaluators.
+    "reasoning_coherence_evaluator",
+    "tool_selection_evaluator",
+    "query_quality_evaluator",
+    "evidence_grounded_reasoning_evaluator",
+    "efficiency_evaluator",
+    "safety_awareness_evaluator",
+    # Combined concurrent judge runner + config-driven selection.
+    "llm_judge_evaluator",
+    "build_evaluators",
+    "active_judge_evaluators",
+    "load_eval_config",
+    "CORE_EVALUATORS",
+    "HEURISTIC_EVALUATORS",
+    "JUDGE_EVALUATORS",
 ]
