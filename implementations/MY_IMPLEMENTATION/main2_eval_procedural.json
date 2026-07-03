@@ -1,0 +1,1769 @@
+{
+  "summary": {
+    "item_count": 25,
+    "metric_means": {
+      "answer_similarity": 0.802103329864977,
+      "answer_correctness": 0.0,
+      "safety_level_match": 0.44,
+      "traceability_recall": 0.6666666666666667,
+      "traceability_precision": 0.38666666666666666,
+      "traceability_complete": 0.56
+    }
+  },
+  "results": [
+    {
+      "id": "omh-proc-013",
+      "question": "What are the startup steps for a bulk storage container before a transfer operation?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: Before beginning any operation ensure the transfer equipment is in good condition, the bulk storage container is safe to be filled, and the surrounding area is free from hazards that may constitute a source of ignition. Step 2: Before beginning any operation ensure the transfer equipment is in satisfactory operating condition, the bulk storage container is safe to be filled, and the surrounding area is free from hazards. Step 3: Procedures for liquid transfer operations at LP-Gas bulk storage tanks from a railcar are based on common industry practices, manufacturer's instructions, and provisions listed in NFPA 58-2004 and U.S. Step 4: Therefore, the fixed maximum liquid level gauge must be used to determine the maximum filling level.] Before making the connection, make sure all sources of ignition within 25 feet of the transfer point are removed, consistent with the requirements in Section 4 of this handbook. Key requirements: manual valves.",
+        "safety_level": "high",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p40_c03",
+            "page": 40,
+            "section_heading": "5.1.1 Bulk Storage Containers",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p54_c01",
+            "page": 54,
+            "section_heading": "Section 4 - General Operations and Safety Requirements",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p50_c01",
+            "page": 50,
+            "section_heading": "Section 4 - General Operations and Safety Requirements",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.8174052274686098,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 2 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.817 (threshold=0.78); missing required: ['internal valves', 'emergency shutdown']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'high'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 1.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 1/1 (recall=1.00), precision=0.33"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.3333333333333333,
+          "data_type": "NUMERIC",
+          "comment": "1 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "all required sources cited"
+        }
+      ]
+    },
+    {
+      "id": "omh-proc-014",
+      "question": "When loading a CTMV with a plant pump, how is the vehicle positioned and secured before connecting hoses?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: If any defect is found, discontinue the loading operation, notify your supervisor and do not resume loading until the defect has been eliminated. Step 2: If either is excessively worn so the connection leaks with a new O-ring or gasket, replace the worn fitting or adapter before proceeding with the loading operation. Step 3: If a CTMV pump is used, the liquid transfer hose must be as short as possible, but no longer than 50 feet. Step 4: If there is not sufficient LP- Gas pressure in the hose to open the receiving container filler valve, use the CTMV pump to transfer a few gallons of LP-Gas into the receiving container.",
+        "safety_level": "high",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p47_c01",
+            "page": 47,
+            "section_heading": "Section 4 - General Operations and Safety Requirements",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p43_c01",
+            "page": 43,
+            "section_heading": "5.1.2 Loading a Cargo Tank Motor Vehicle (CTMV) Using a Plant Pump",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p53_c01",
+            "page": 53,
+            "section_heading": "5.1.4 Unloading a Cargo Tank Motor Vehicle",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.7233940007576667,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 2 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.723 (threshold=0.82); missing required: ['10 feet', 'parking brake', 'chock']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'high'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 0/1 (recall=0.00), precision=0.00"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "0 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "missing required source(s)"
+        }
+      ]
+    },
+    {
+      "id": "omh-proc-015",
+      "question": "During plant-pump loading of a CTMV, what visual indication tells the operator to stop the pump, and what is done immediately after?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: If a release or fire develops at any time during the operation, close all ESVs immediately and stop the compressor. Step 2: If another loading bulkhead is available, move to it after notifying your supervisor and ensuring that a warning notice is placed on the defective hose. Step 3: closely observe the platform scale balance beam, close the hose end valve immediately after the balance beam rises, and then shut down the liquid transfer pump. Step 4: 14.During the transfer operation, a qualified person must be present at the transfer point to identify emergencies, monitor the condition of the transfer system and remain in attendance during the transfer period.",
+        "safety_level": "negligible",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p42_c02",
+            "page": 42,
+            "section_heading": "Section 4 - General Operations and Safety Requirements",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p47_c02",
+            "page": 47,
+            "section_heading": "Section 4 - General Operations and Safety Requirements",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p43_c02",
+            "page": 43,
+            "section_heading": "5.1.2 Loading a Cargo Tank Motor Vehicle (CTMV) Using a Plant Pump",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.763235546954173,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.763 (threshold=0.82); missing required: ['white mist', 'shut down the pump']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'negligible'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 0/1 (recall=0.00), precision=0.00"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "0 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "missing required source(s)"
+        }
+      ]
+    },
+    {
+      "id": "omh-proc-016",
+      "question": "How is a sniff test for odorant performed during cargo tank loading, and what must be done if no odorant can be smelled?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: Should a sniff test be performed during cargo tank loading, the following procedure can be used: \u2022 Vent a small quantity of liquid through a #54 vent (or a bleeder valve). Step 2: Should a sniff test be performed during cargo tank loading, the Step 3: \u2022 If you can smell propane odorant, record your sniff test on your loading ticket, daily routing report, or other company form and proceed with the loading operation. Step 4: If any defect is found, discontinue the loading operation, notify your supervisor and do not resume loading until the defect has been eliminated.",
+        "safety_level": "high",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p43_c02",
+            "page": 43,
+            "section_heading": "5.1.2 Loading a Cargo Tank Motor Vehicle (CTMV) Using a Plant Pump",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p42_c01",
+            "page": 42,
+            "section_heading": "Section 4 of this handbook",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p52_c02",
+            "page": 52,
+            "section_heading": "Section 4 - General Operations and Safety Requirements",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.8979535413087114,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.898 (threshold=0.78); missing required: ['do not load']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'critical', got 'high'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 1.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 1/1 (recall=1.00), precision=0.33"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.3333333333333333,
+          "data_type": "NUMERIC",
+          "comment": "1 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "all required sources cited"
+        }
+      ]
+    },
+    {
+      "id": "omh-proc-017",
+      "question": "What conditions must be confirmed at startup before unloading an LP-Gas railcar?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: \u2022 The weight of LP-Gas filled into the cylinder must be checked, after disconnecting the cylinder from the filling line, by the use of an accurate scale \u2022 No cylinder may be filled and offered for transportation in commerce unless that cylinder has been requalified and marked in accordance with DOT requirements. Step 2: [Note: If an excess-flow valve slugs shut, stop the pump; then, reopen the excess-flow valve by equalizing pressure across the valve before continuing.] 10. Step 3: If the inspection reveals an unsafe condition that cannot be corrected, notify the bulk plant manager or supervisor. Step 4: If more than 5% liquid is present in a tank larger than 125 water gallons capacity, the excess liquid must be evacuated before the tank can be transported on public roadways. Key requirements: chocked; brakes; derailer; flagged.",
+        "safety_level": "high",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p56_c01",
+            "page": 56,
+            "section_heading": "5.1.5 Unloading a LP-Gas Railcar Using the Plant Compressor",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p58_c01",
+            "page": 58,
+            "section_heading": "Section 4 - General Operations and Safety Requirements",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p55_c01",
+            "page": 55,
+            "section_heading": "5.1.5 Unloading a LP-Gas Railcar Using the Plant Compressor",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.6862271725011468,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.686 (threshold=0.82)"
+        },
+        {
+          "name": "safety_level_match",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'high'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 1.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 1/1 (recall=1.00), precision=0.33"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.3333333333333333,
+          "data_type": "NUMERIC",
+          "comment": "1 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "all required sources cited"
+        }
+      ]
+    },
+    {
+      "id": "omh-proc-018",
+      "question": "How is the contents of a railcar gauged with a slip tube gauge, and why must the outage be read more than once?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: First, open the bleeder valve at the top of the gauge and raise or lower the tube until a white plume of mist vents out of the bleeder orifice indicating that the slip tube is in contact with liquid LP-Gas. Step 2: A series of graduated markings on the slip tube indicates the distance in inches and feet from the top of the tank to the surface of the liquid, also known as the \"outage\" of the railcar. Step 3: Once the outage of the railcar is read, convert the outage to gallons by using the outage table (sometimes called a \"strapping chart\") furnished by the shipper or railcar manufacturer. Step 4: In most cases, a \"bad order\" tag must be filled out to notify the shipper of the problem.",
+        "safety_level": "high",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p56_c02",
+            "page": 56,
+            "section_heading": "5.1.5 Unloading a LP-Gas Railcar Using the Plant Compressor",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.8565823364018733,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.857 (threshold=0.78); missing required: ['at least twice']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'high'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 1.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 1/1 (recall=1.00), precision=1.00"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 1.0,
+          "data_type": "NUMERIC",
+          "comment": "1 of 1 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "all required sources cited"
+        }
+      ]
+    },
+    {
+      "id": "omh-proc-019",
+      "question": "What precaution must be taken before disconnecting any hose when shutting down a CTMV unloading operation?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: If a release or fire develops at any time during the operation, close all ESVs immediately and stop the compressor. Step 2: If operations are normal, continue the transfer process until a steady white mist fog is first emitted from the liquid level gauge vent valve, then immediately shut down the pump, close the ESVs, the hose end valves and CTMV liquid and vapor fill valves. Step 3: If qualified personnel must leave the flaring operation for any reason, the operation should be shut down and the Step 4: If for any reason the transfer operation is interrupted, or the attendant must leave the area, the pump must be shutdown and transfer hoses disconnected. Key requirements: bled off.",
+        "safety_level": "negligible",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p44_c01",
+            "page": 44,
+            "section_heading": "Section 3 of this handbook",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p53_c01",
+            "page": 53,
+            "section_heading": "5.1.4 Unloading a Cargo Tank Motor Vehicle",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p58_c01",
+            "page": 58,
+            "section_heading": "Section 4 - General Operations and Safety Requirements",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.6809480625415517,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.681 (threshold=0.82); missing required: ['trapped']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'negligible'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 1.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 1/1 (recall=1.00), precision=0.33"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.3333333333333333,
+          "data_type": "NUMERIC",
+          "comment": "1 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "all required sources cited"
+        }
+      ]
+    },
+    {
+      "id": "omh-proc-059",
+      "question": "When unloading a railcar, what must be checked and done with the tank car valves before connecting the transfer hoses?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: Before connecting the liquid and vapor transfer hoses between the railcar and the unloading riser, check the manual shutoff valves on the railcar liquid and vapor connections to make sure they are fully closed. Step 2: A transfer valve with a machined adapter (Figure 5.1.8h) must be used to evacuate a tank through a liquid evacuation valve. Step 3: Therefore, the fixed maximum liquid level gauge must be used to determine the maximum filling level.] Before making the connection, make sure all sources of ignition within 25 feet of the transfer point are removed, consistent with the requirements in Section 4 of this handbook. Step 4: A qualified person must be present at all times during the entire transfer operation to monitor the condition of the transfer system and to handle emergencies. Key requirements: remove the plugs; ESVs.",
+        "safety_level": "high",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p57_c01",
+            "page": 57,
+            "section_heading": "5.1.5 Unloading a LP-Gas Railcar Using the Plant Compressor",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p58_c02",
+            "page": 58,
+            "section_heading": "Section 3 of this handbook and company procedures to handle the situation",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p56_c01",
+            "page": 56,
+            "section_heading": "5.1.5 Unloading a LP-Gas Railcar Using the Plant Compressor",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.8353611237553138,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.835 (threshold=0.82); missing required: ['gloves']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'high'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 1.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 1/1 (recall=1.00), precision=0.33"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.3333333333333333,
+          "data_type": "NUMERIC",
+          "comment": "1 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "all required sources cited"
+        }
+      ]
+    },
+    {
+      "id": "omh-proc-060",
+      "question": "After a railcar has been unloaded, what steps secure the car and site before it is released for return shipment?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: The LP-Gas marketer should use reasonable care to provide a safe and secure environment for the railcar, from the time the railcar return form is used to notify the railroad company agent that the car is ready to be picked up until the time it is actually removed from the siding. Step 2: This form must be prepared, signed and presented to the rail carrier representative for their signature before the railcar is released. Step 3: Prior to releasing for return shipment verify the following: \u2022 Shipping name of product - 2 sides \u2022 Reporting markings - 4 sides \u2022 Tank Car Classification - 2 sides \u2022 Safety valve and tank test information -2 sides \u2022 Placarding - sides \u2022 All valves closed \u2022 All valves plugged and wrench tight \u2022 Empty Tank Car Return Billing instructions completed \u2022 Valves free of corrosion \u2022 Bolts and nuts present and secure \u2022 Protective valve housing secure \u2022 No corrosion or damage visible on relief valve. Step 4: Move the truck only after it has been determined the path is clear and any discharge of LP-Gas has dissipated. Key requirements: chock blocks; derail.",
+        "safety_level": "high",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p62_c01",
+            "page": 62,
+            "section_heading": "Section 4 - General Operations and Safety Requirements",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p53_c01",
+            "page": 53,
+            "section_heading": "5.1.4 Unloading a Cargo Tank Motor Vehicle",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p60_c02",
+            "page": 60,
+            "section_heading": "5.1.5 Unloading a LP-Gas Railcar Using the Plant Compressor",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.8303013270720644,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.830 (threshold=0.82); missing required: ['sample valve', 'close all', 'hand brake']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'high'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 0.5,
+          "data_type": "NUMERIC",
+          "comment": "required cited 1/2 (recall=0.50), precision=0.33"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.3333333333333333,
+          "data_type": "NUMERIC",
+          "comment": "1 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "missing required source(s)"
+        }
+      ]
+    },
+    {
+      "id": "omh-proc-061",
+      "question": "What must the person filling a DOT cylinder do to verify it is fit for filling before each fill?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: Three of the most critical US DOT regulatory requirements related to cylinder filling are as follows: \u2022 Before filling each cylinder, the person filling the cylinder must visually inspect the outside of the cylinder. Step 2: Additionally, NFPA 58-2004 requires that cylinders must be continued in service and transported in compliance with DOT regulations, and that any cylinder that is due for requalification must not be refilled until it is requalified using requalification methods prescribed in the DOT Step 3: Before each filling of a cylinder, the individual filling the cylinder must visually inspect the outside of the cylinder. Step 4: Specifically, DOT regulations stipulate that no individual is allowed to fill a cylinder that is overdue for periodic requalification with a hazardous material and then offer it for transportation.",
+        "safety_level": "negligible",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p64_c02",
+            "page": 64,
+            "section_heading": "5.1.6 Preparation and Transportation of DOT Cylinders",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p98_c01",
+            "page": 98,
+            "section_heading": "5.1.10 Dispensing LP-Gas",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p99_c01",
+            "page": 99,
+            "section_heading": "5.1.10 Dispensing LP-Gas",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.8264999798820367,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.826 (threshold=0.82); missing required: ['pressure relief device']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'negligible'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 1.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 2/2 (recall=1.00), precision=0.67"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.6666666666666666,
+          "data_type": "NUMERIC",
+          "comment": "2 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "all required sources cited"
+        }
+      ]
+    },
+    {
+      "id": "omh-proc-062",
+      "question": "What items should be checked when inspecting a new DOT cylinder that has just arrived at the bulk plant?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "The following items (as a minimum) should be checked on each tank transported from the bulk plant to a customer location: \u2022 Check for leaks at all tank welds and fittings. Specific to requalification requirements, all cylinders received at a bulk plant must be checked for: \u2022 Requalification Due Date Three requalification methods are used to verify DOT cylinder fitness for continued service.",
+        "safety_level": "negligible",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p72_c01",
+            "page": 72,
+            "section_heading": "5.1.7.1 Tank Inspection and Preparation at Bulk Plant",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p64_c03",
+            "page": 64,
+            "section_heading": "5.1.6 Preparation and Transportation of DOT Cylinders",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p43_c01",
+            "page": 43,
+            "section_heading": "5.1.2 Loading a Cargo Tank Motor Vehicle (CTMV) Using a Plant Pump",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.7929936965035197,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.793 (threshold=0.82); missing required: ['240 psig', '375 psig', 'tare weight', 'valve protection']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'low', got 'negligible'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 0/1 (recall=0.00), precision=0.00"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "0 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "missing required source(s)"
+        }
+      ]
+    },
+    {
+      "id": "omh-proc-063",
+      "question": "How should LP-Gas cylinders be loaded and secured on a delivery vehicle?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: Figure 5.1.6b - Vertically Secured Cylinders Figure 5.1.6c - Horizontally Secured Cylinders (Relief Valve at Top) LP-Gas cylinders should be loaded so that an even weight distribution is achieved and maintained. Step 2: a) Where cylinders of 1000 lb water capacity or less are stored and are awaiting use, resale or exchange, the following fire protection requirements apply: \u2022 At least one approved portable fire extinguisher with a capacity of 18 pounds dry chemical with a B:C rating must be provided if the aggregate quantity of LP-Gas stored is more than 720 pounds. Step 3: Methanol can be injected into containers by using a short length of LP- Gas hose with a female ACME connector installed on the container filler valve, while a male ACME connector on the other end is secured to the bulk truck delivery hose end valve adapter. Step 4: & Larger Both Sides & Each End Propane Service DOT 654321 Vehic le Placards- Front, Back & Both Sides Figure 5.1.7g - Labeling, Placarding, and Cargo Restraints If an ASME tank has a valve installed in a bottom opening that could be damaged during transit, the tank should be secured on suitable cargo blocking or Key requirements: leak-free; rack or frame. 18 lb 720 lb 1000 pounds",
+        "safety_level": "high",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p170_c01",
+            "page": 170,
+            "section_heading": "Section 7 - Maintenance and Inspection",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p69_c01",
+            "page": 69,
+            "section_heading": "5.1.6 Preparation and Transportation of DOT Cylinders",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p92_c01",
+            "page": 92,
+            "section_heading": "5.1.8.2 ASME Containers",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.7620818843010381,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.762 (threshold=0.82); missing required: ['vapor space']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'high'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 0.3333333333333333,
+          "data_type": "NUMERIC",
+          "comment": "required cited 1/3 (recall=0.33), precision=0.33"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.3333333333333333,
+          "data_type": "NUMERIC",
+          "comment": "1 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "missing required source(s)"
+        }
+      ]
+    },
+    {
+      "id": "omh-proc-064",
+      "question": "What items should be checked on each ASME tank before it is transported from the bulk plant to a customer?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: The following items (as a minimum) should be checked on each tank transported from the bulk plant to a customer location: \u2022 Check for leaks at all tank welds and fittings. Step 2: If the tank is a new tank and not vacuum-sealed by the manufacturer, be sure that the container is properly purged of air before it is transported to the customer location. Step 3: If more than 5% liquid is present in a tank larger than 125 water gallons capacity, the excess liquid must be evacuated before the tank can be transported on public roadways. Step 4: Before the tank is lifted, transported, and placed in its new location, pre-job planning that includes everyone who will be involved should be conducted and should address the following: \u2022 A detailed tank loading or unloading plan along with a description for each person's responsibilities in the operation. Key requirements: coating.",
+        "safety_level": "negligible",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p72_c01",
+            "page": 72,
+            "section_heading": "5.1.7.1 Tank Inspection and Preparation at Bulk Plant",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p75_c02",
+            "page": 75,
+            "section_heading": "5.1.7.2 Loading of ASME Containers to be Transported",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p73_c01",
+            "page": 73,
+            "section_heading": "5.1.7.1 Tank Inspection and Preparation at Bulk Plant",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.8034599405408482,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.803 (threshold=0.82); missing required: ['weather caps', 'data plate']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'negligible'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 0.6666666666666666,
+          "data_type": "NUMERIC",
+          "comment": "required cited 2/3 (recall=0.67), precision=0.67"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.6666666666666666,
+          "data_type": "NUMERIC",
+          "comment": "2 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "missing required source(s)"
+        }
+      ]
+    },
+    {
+      "id": "omh-proc-065",
+      "question": "What pre-job planning and setup are required before using a truck-mounted crane to load or set an ASME tank?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: Before the tank is lifted, transported, and placed in its new location, pre-job planning that includes everyone who will be involved should be conducted and should address the following: \u2022 A detailed tank loading or unloading plan along with a description for each person's responsibilities in the operation. Step 2: After the pre-job planning session, the crane truck should be located on level ground so that the ASME tank can be lifted and positioned within safe working limits of the crane. Step 3: \u2022 The wording \"This container shall not contain a product having a vapor pressure in excess of 215 psi at 100\u00b0F.\" \u2022 Tare weight of container fitted for service \u2022 Outside surface area in square feet \u2022 Year of manufacture \u2022 Shell and head thickness \u2022 Overall length, outside and head diameter of the tank \u2022 *Manufacturer's serial number \u2022 *ASME Code symbol Step 4: After inspecting the sling(s), the crane operator must determine how the tank will be lifted, how the sling(s) will be arranged, and if additional slings or other equipment is needed for the load.",
+        "safety_level": "negligible",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p76_c01",
+            "page": 76,
+            "section_heading": "5.1.7.2 Loading of ASME Containers to be Transported",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p75_c02",
+            "page": 75,
+            "section_heading": "5.1.7.2 Loading of ASME Containers to be Transported",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p42_c01",
+            "page": 42,
+            "section_heading": "Section 4 of this handbook",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.8326498024006468,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.833 (threshold=0.82); missing required: ['spotter', 'beneath a tank', 'outriggers', 'chock']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'negligible'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 1.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 2/2 (recall=1.00), precision=0.67"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.6666666666666666,
+          "data_type": "NUMERIC",
+          "comment": "2 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "all required sources cited"
+        }
+      ]
+    },
+    {
+      "id": "omh-proc-066",
+      "question": "How must an ASME tank be secured on a vehicle for transport, and what must be done with placards on the return trip?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: & Larger Both Sides & Each End Propane Service DOT 654321 Vehic le Placards- Front, Back & Both Sides Figure 5.1.7g - Labeling, Placarding, and Cargo Restraints If an ASME tank has a valve installed in a bottom opening that could be damaged during transit, the tank should be secured on suitable cargo blocking or Step 2: When an ASME tank larger than 120 gallons water capacity containing LP-Gas (gross weight approximately 665 pounds), or two or more 120 gallon ASME tanks are transported, the vehicle must be placarded on the front, back and both sides. Step 3: When transferring LP-Gas from a stationary ASME LP-Gas storage container to a CTMV cargo tank, the following safety precautions can serve as a guideline: \u2022 All hoses used in the evacuation procedure must be designed, listed and marked for use with liquid propane (1750 psig bursting pressure, and 350 psig working pressure). Step 4: Of most importance, the driver must: \u2022 Inspect the cargo and the devices used to secure the cargo within the first 50 miles after beginning a trip, and make necessary adjustments; and \u2022 Re-examine the cargo and devices that secure the load, making necessary adjustments whenever: o The driver has a change of duty status; or o The commercial motor vehicle has been driven for 3 hours; or o The commercial motor vehicle has been driven for 150 miles. Key requirements: 2 cargo straps; binders. 665 lb",
+        "safety_level": "high",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p78_c02",
+            "page": 78,
+            "section_heading": "Section 5 - Plant Operations",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p79_c01",
+            "page": 79,
+            "section_heading": "5.1.7.3 DOT Regulations Pertaining to Transporting ASME Containers",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p103_c01",
+            "page": 103,
+            "section_heading": "Section 5 - Plant Operations",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.8015948412835259,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.802 (threshold=0.82); missing required: ['removed or covered']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'high'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 1.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 1/1 (recall=1.00), precision=0.33"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.3333333333333333,
+          "data_type": "NUMERIC",
+          "comment": "1 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "all required sources cited"
+        }
+      ]
+    },
+    {
+      "id": "omh-proc-067",
+      "question": "How is liquid propane removed from a DOT cylinder by gravity transfer?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: Cylind er Inverter with ps Hig Sec uring Stra h Pressure LP-Ga s Hose with Exc ess Flow & Shutoff Va lve Ea c h End Rec e iving ASME Ta nk Elevated Dock or Platform Figure 5.1.8a - Evacuation by Gravity Transfer When evacuating liquid from stationary DOT cylinders, inverters must be rated for the load of the cylinder and the product within it. Step 2: Propane liquid can be removed from portable and exchange DOT cylinders by gravity transfer. Step 3: Additionally, NFPA 58-2004 requires that cylinders must be continued in service and transported in compliance with DOT regulations, and that any cylinder that is due for requalification must not be refilled until it is requalified using requalification methods prescribed in the DOT Step 4: When the adapter is installed on a filler valve, the moving operator stem pushes open the back checks in the filler valve so the liquid can be removed from the container. Key requirements: service valve.",
+        "safety_level": "high",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p80_c02",
+            "page": 80,
+            "section_heading": "5.1.8.1 DOT Cylinders",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p43_c01",
+            "page": 43,
+            "section_heading": "5.1.2 Loading a Cargo Tank Motor Vehicle (CTMV) Using a Plant Pump",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p42_c01",
+            "page": 42,
+            "section_heading": "Section 4 of this handbook",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.8433064440131175,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.843 (threshold=0.82); missing required: ['high-pressure', 'fill valve']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'moderate', got 'high'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 0.5,
+          "data_type": "NUMERIC",
+          "comment": "required cited 1/2 (recall=0.50), precision=0.33"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.3333333333333333,
+          "data_type": "NUMERIC",
+          "comment": "1 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "missing required source(s)"
+        }
+      ]
+    },
+    {
+      "id": "omh-proc-068",
+      "question": "How does a scavenging (compressor) system evacuate liquid from a cylinder?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: When this system is used to evacuate a container, the following process is typically used: \u2022 The vapor lines that connect the compressor to the two tanks are opened and the liquid line is closed. Step 2: Since a vapor service valve does not utilize a dip tube, the cylinder must be inverted (i.e., bottom side up) so liquid can be withdrawn through the vapor service valve (see Figure 5.1.8b). Step 3: The higher pressure now in the scavenging tank forces the liquid in the scavenger tank into the plant storage tank, emptying the scavenger tank so it can be used again to evacuate other containers. Step 4: One of the most common methods used is the scavenging system, which consist of a small scavenging tank, a stationary or portable compressor, and the bulk plant storage tank.",
+        "safety_level": "high",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p81_c02",
+            "page": 81,
+            "section_heading": "5.1.8.1 DOT Cylinders",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p82_c01",
+            "page": 82,
+            "section_heading": "5.1.8.1 DOT Cylinders",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.8595924580968565,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.860 (threshold=0.82); missing required: ['bulk storage tank']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'moderate', got 'high'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 1.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 2/2 (recall=1.00), precision=1.00"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 1.0,
+          "data_type": "NUMERIC",
+          "comment": "2 of 2 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "all required sources cited"
+        }
+      ]
+    },
+    {
+      "id": "omh-proc-069",
+      "question": "What is the procedure for flaring the remaining LP-Gas from a small container?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: When transferring LP-Gas from a stationary ASME LP-Gas storage container to a CTMV cargo tank, the following safety precautions can serve as a guideline: \u2022 All hoses used in the evacuation procedure must be designed, listed and marked for use with liquid propane (1750 psig bursting pressure, and 350 psig working pressure). Step 2: LP-Gas in the delivery hose forces the methanol into the container when the hose end valve is opened The procedure is as follows: Inspect the short hose that will be used to inject the methanol and be sure it is free of defects that would require it to be removed from service. Step 3: Close the hose end valve and partially loosen the short hose section from the container filler valve, allowing the LP-Gas to vent until and the hose is de-pressurized. Step 4: If there is not sufficient LP- Gas pressure in the hose to open the receiving container filler valve, use the CTMV pump to transfer a few gallons of LP-Gas into the receiving container.",
+        "safety_level": "high",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p85_c03",
+            "page": 85,
+            "section_heading": "Section 4 of this handbook",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p97_c01",
+            "page": 97,
+            "section_heading": "5.1.9 Purging of Containers",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p83_c03",
+            "page": 83,
+            "section_heading": "Section 5 - Plant Operations",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.7675122681462434,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.768 (threshold=0.82); missing required: ['pressure test', 'gastight', 'fire extinguisher', '15 psig', 'close all shutoff valves']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'critical', got 'high'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 0/2 (recall=0.00), precision=0.00"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "0 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "missing required source(s)"
+        }
+      ]
+    },
+    {
+      "id": "omh-proc-070",
+      "question": "How are the hoses connected and tested when evacuating a stationary ASME tank using a portable compressor?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: The following procedures for evacuating LP-Gas from a stationary ASME tank are designed as a guide when using a CTMV or portable compressor. Step 2: When transferring LP-Gas from a stationary ASME LP-Gas storage container to a CTMV cargo tank, the following safety precautions can serve as a guideline: \u2022 All hoses used in the evacuation procedure must be designed, listed and marked for use with liquid propane (1750 psig bursting pressure, and 350 psig working pressure). Step 3: Figure 5.1.8i Evacuating ASME Tank Using a Portable Compressor \u2022 The delivery vehicle should be approximately 10 feet from the suction side of the compressor. Step 4: When this system is used to evacuate a container, the following process is typically used: \u2022 The vapor lines that connect the compressor to the two tanks are opened and the liquid line is closed. Key requirements: transfer valve; pressure test; one valve at a time.",
+        "safety_level": "high",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p92_c01",
+            "page": 92,
+            "section_heading": "5.1.8.2 ASME Containers",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p93_c01",
+            "page": 93,
+            "section_heading": "5.1.8.2 ASME Containers",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p90_c02",
+            "page": 90,
+            "section_heading": "Section 5 - Plant Operations",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.8489678786147943,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.849 (threshold=0.82); missing required: ['bleed down']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'high'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 1.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 2/2 (recall=1.00), precision=0.67"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.6666666666666666,
+          "data_type": "NUMERIC",
+          "comment": "2 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "all required sources cited"
+        }
+      ]
+    },
+    {
+      "id": "omh-proc-071",
+      "question": "What is the procedure for purging a container with LP-Gas vapor?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: When transferring LP-Gas from a stationary ASME LP-Gas storage container to a CTMV cargo tank, the following safety precautions can serve as a guideline: \u2022 All hoses used in the evacuation procedure must be designed, listed and marked for use with liquid propane (1750 psig bursting pressure, and 350 psig working pressure). Step 2: If there is not sufficient LP- Gas pressure in the hose to open the receiving container filler valve, use the CTMV pump to transfer a few gallons of LP-Gas into the receiving container. Step 3: The following is a typical procedure: \u2022 A LP-Gas liquid hose, with a shutoff valve on each end, is connected between the cylinder and the scavenger tank. Step 4: Close the hose end valve and partially loosen the short hose section from the container filler valve, allowing the LP-Gas to vent until and the hose is de-pressurized.",
+        "safety_level": "high",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p85_c03",
+            "page": 85,
+            "section_heading": "Section 4 of this handbook",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p91_c01",
+            "page": 91,
+            "section_heading": "Section 5 - Plant Operations",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p84_c01",
+            "page": 84,
+            "section_heading": "5.1.8.1 DOT Cylinders",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.7978940018902788,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.798 (threshold=0.82); missing required: ['bleed', '15 psig', '5 times']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'moderate', got 'high'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 0/1 (recall=0.00), precision=0.00"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "0 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "missing required source(s)"
+        }
+      ]
+    },
+    {
+      "id": "omh-proc-072",
+      "question": "How is methanol injected into a pressurized container using the CTMV delivery hose?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: Methanol can be injected into containers by using a short length of LP- Gas hose with a female ACME connector installed on the container filler valve, while a male ACME connector on the other end is secured to the bulk truck delivery hose end valve adapter. Step 2: LP-Gas in the delivery hose forces the methanol into the container when the hose end valve is opened The procedure is as follows: Inspect the short hose that will be used to inject the methanol and be sure it is free of defects that would require it to be removed from service. Step 3: If there is not sufficient LP- Gas pressure in the hose to open the receiving container filler valve, use the CTMV pump to transfer a few gallons of LP-Gas into the receiving container. Step 4: If operations are normal, continue the transfer process until a steady white mist fog is first emitted from the liquid level gauge vent valve, then immediately shut down the pump, close the ESVs, the hose end valves and CTMV liquid and vapor fill valves. Key requirements: de-pressurize.",
+        "safety_level": "moderate",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p96_c02",
+            "page": 96,
+            "section_heading": "5.1.9 Purging of Containers",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p97_c01",
+            "page": 97,
+            "section_heading": "5.1.9 Purging of Containers",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p43_c01",
+            "page": 43,
+            "section_heading": "5.1.2 Loading a Cargo Tank Motor Vehicle (CTMV) Using a Plant Pump",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.9001024813579739,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.900 (threshold=0.82); missing required: ['slowly open']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'moderate', got 'moderate'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 1.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 2/2 (recall=1.00), precision=0.67"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.6666666666666666,
+          "data_type": "NUMERIC",
+          "comment": "2 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "all required sources cited"
+        }
+      ]
+    },
+    {
+      "id": "omh-proc-073",
+      "question": "What are the startup and operating steps for filling a DOT cylinder on a dispenser scale?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: \u2022 The weight of LP-Gas filled into the cylinder must be checked, after disconnecting the cylinder from the filling line, by the use of an accurate scale \u2022 No cylinder may be filled and offered for transportation in commerce unless that cylinder has been requalified and marked in accordance with DOT requirements. Step 2: Additionally, NFPA 58-2004 requires that cylinders must be continued in service and transported in compliance with DOT regulations, and that any cylinder that is due for requalification must not be refilled until it is requalified using requalification methods prescribed in the DOT Step 3: \u2022 Components to Check for Continued Service o Proper cylinder valve protection o Filler valves and weather caps o Valve hand-wheels o Valve stem leaks o Relief valves o Quick-closing couplings on motor fuel cylinders o Fixed maximum liquid level gauge o Float gauges o Foot rings and welds o Evidence of ammonia contamination o Any abnormal conditions reported by the customer If valve or fitting replacement is necessary, or requalification is required, the cylinder should be moved to a designated area for that purpose. Step 4: Three of the most critical US DOT regulatory requirements related to cylinder filling are as follows: \u2022 Before filling each cylinder, the person filling the cylinder must visually inspect the outside of the cylinder. Key requirements: platform scale; close the hose end valve; check the weight.",
+        "safety_level": "negligible",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p98_c01",
+            "page": 98,
+            "section_heading": "5.1.10 Dispensing LP-Gas",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p101_c01",
+            "page": 101,
+            "section_heading": "5.1.10 Dispensing LP-Gas",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p99_c01",
+            "page": 99,
+            "section_heading": "5.1.10 Dispensing LP-Gas",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.776934141434756,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.777 (threshold=0.82); missing required: ['zero', '0.42']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'negligible'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 0.6666666666666666,
+          "data_type": "NUMERIC",
+          "comment": "required cited 2/3 (recall=0.67), precision=0.67"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.6666666666666666,
+          "data_type": "NUMERIC",
+          "comment": "2 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "missing required source(s)"
+        }
+      ]
+    },
+    {
+      "id": "omh-proc-074",
+      "question": "What are the operating steps for filling a vehicle-mounted ASME motor fuel tank?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: \u2022 The wording \"This container shall not contain a product having a vapor pressure in excess of 215 psi at 100\u00b0F.\" \u2022 Tare weight of container fitted for service \u2022 Outside surface area in square feet \u2022 Year of manufacture \u2022 Shell and head thickness \u2022 Overall length, outside and head diameter of the tank \u2022 *Manufacturer's serial number \u2022 *ASME Code symbol Step 2: In order for the meter to operate and pump propane into an ASME tank, the motor/mobile fuel filling hose end valve must be connected to the ASME tank filler valve and valves V1, V2, V3 and V6 (shown in Figure 5.1.10b) must be in the open position. Step 3: The following procedures for evacuating LP-Gas from a stationary ASME tank are designed as a guide when using a CTMV or portable compressor. Step 4: If you have difficulty filling a motor or mobile fuel tank, always check to be sure the vapor valve is open. Key requirements: meter to zero; vent.",
+        "safety_level": "moderate",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p102_c01",
+            "page": 102,
+            "section_heading": "Section 5 - Plant Operations",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p104_c02",
+            "page": 104,
+            "section_heading": "5.1.10 Dispensing LP-Gas",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p104_c01",
+            "page": 104,
+            "section_heading": "Section 4 of this handbook",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.7600318546410145,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.760 (threshold=0.82); missing required: ['fixed maximum liquid level gauge', 'white mist', 'close the hose end valve']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'moderate'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 1.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 1/1 (recall=1.00), precision=0.33"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.3333333333333333,
+          "data_type": "NUMERIC",
+          "comment": "1 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "all required sources cited"
+        }
+      ]
+    },
+    {
+      "id": "omh-proc-075",
+      "question": "Before filling a mobile fuel tank that supplies gas appliances, what must be done about the appliance pilots?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: For mobile ASME fuel tanks, inform the operator that the service valve will need to be returned to the fully open position and appliance pilots re-lit after the vehicle has been moved from the LP-Gas transfer area. Step 2: In order for the meter to operate and pump propane into an ASME tank, the motor/mobile fuel filling hose end valve must be connected to the ASME tank filler valve and valves V1, V2, V3 and V6 (shown in Figure 5.1.10b) must be in the open position. Step 3: If more than 5% liquid is present in a tank larger than 125 water gallons capacity, the excess liquid must be evacuated before the tank can be transported on public roadways. Step 4: \u2022 Notify the vehicle operator that you are turning the LP- Gas fuel supply off at the service valve and verify with him or her that appliance pilots are off.",
+        "safety_level": "negligible",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p102_c01",
+            "page": 102,
+            "section_heading": "Section 5 - Plant Operations",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p104_c01",
+            "page": 104,
+            "section_heading": "Section 4 of this handbook",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p99_c01",
+            "page": 99,
+            "section_heading": "5.1.10 Dispensing LP-Gas",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.8210764789416675,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.821 (threshold=0.82); missing required: ['vapor service valve', 'extinguished']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'negligible'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 0/1 (recall=0.00), precision=0.00"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "0 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "missing required source(s)"
+        }
+      ]
+    },
+    {
+      "id": "omh-proc-076",
+      "question": "What system checks should be performed during installation or modification of a vapor distribution system before startup?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: The following system checks/tests should be performed during the installation or modification of the vapor distribution system(s). Step 2: If the protective coating of a tank is damaged, the tank coating should be repaired or another tank selected for installation. Step 3: This section provides a bulk storage facility maintenance and inspection checklist detailing some of the many preventative maintenance and inspection steps that must be conducted in typical bulk storage facility and large volume vapor distribution systems. Step 4: While the equipment at a large volume customer operating off of a vapor distribution system will vary in size (i.e., storage capacity, meters, regulators), the basic procedures to follow are usually much the same as for the bulk storage tank.",
+        "safety_level": "moderate",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p106_c01",
+            "page": 106,
+            "section_heading": "5.2 Vapor Distribution Systems",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p73_c01",
+            "page": 73,
+            "section_heading": "5.1.7.1 Tank Inspection and Preparation at Bulk Plant",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p151_c02",
+            "page": 151,
+            "section_heading": "Section 7 - Maintenance and Inspection",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.7664767558149977,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.766 (threshold=0.82); missing required: ['purging', 'pressure tests', 'leak checks', 'Emergency Shutdown']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'moderate', got 'moderate'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 1.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 1/1 (recall=1.00), precision=0.33"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.3333333333333333,
+          "data_type": "NUMERIC",
+          "comment": "1 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "all required sources cited"
+        }
+      ]
+    }
+  ]
+}

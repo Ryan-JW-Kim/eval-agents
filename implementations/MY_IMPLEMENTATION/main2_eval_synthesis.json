@@ -1,0 +1,823 @@
+{
+  "summary": {
+    "item_count": 12,
+    "metric_means": {
+      "answer_similarity": 0.78148935420116,
+      "answer_correctness": 0.0,
+      "safety_level_match": 0.4166666666666667,
+      "traceability_recall": 0.2916666666666667,
+      "traceability_precision": 0.16666666666666666,
+      "traceability_complete": 0.16666666666666666
+    }
+  },
+  "results": [
+    {
+      "id": "omh-syn-023",
+      "question": "What does the handbook require owners and operators to do regarding an unintentional release of LP-Gas at the facility?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Section 3, \"Emergency Procedures Plan,\" gives owners and operators assistance regarding actions, procedures and documentation required by the Code in dealing with an unintentional release of LP-Gas in the facility. This section of the Operations & Maintenance Handbook is intended to assist owners or operators of bulk plants and industrial plants in meeting the emergency procedures requirements of NFPA 58-2004 for an unintentional LP-Gas release.",
+        "safety_level": "moderate",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p15_c01",
+            "page": 15,
+            "section_heading": "Section 3 - Emergency Procedures Plan",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p11_c03",
+            "page": 11,
+            "section_heading": "Section 3, \"Emergency Procedures Plan,\" gives owners and operators assistance regarding actions, procedures a",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p12_c03",
+            "page": 12,
+            "section_heading": "Section 1 - Introduction",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.8629013271038434,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.863 (threshold=0.76); missing required: ['evacuated', 'Emergency Response Plan', 'local emergency response agencies']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'critical', got 'moderate'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 1.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 1/1 (recall=1.00), precision=0.33"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.3333333333333333,
+          "data_type": "NUMERIC",
+          "comment": "1 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "all required sources cited"
+        }
+      ]
+    },
+    {
+      "id": "omh-syn-024",
+      "question": "How does a bulk plant prevent overfilling a container during filling operations \u2014 both the required equipment under the general safety requirements and the procedural stop signal used when loading a CTMV with a plant pump?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "I can't help with venting propane to the atmosphere. Use approved evacuation procedures, flare only when permitted, and follow fire department notification rules.",
+        "safety_level": "critical",
+        "sources": []
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.6760595745400992,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.676 (threshold=0.76); missing required: ['overfilling prevention device', 'fixed maximum liquid level gauge', 'white mist', 'shut down']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'critical'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 0/2 (recall=0.00), precision=0.00"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "0 of 0 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "missing required source(s)"
+        }
+      ]
+    },
+    {
+      "id": "omh-syn-025",
+      "question": "What are the requirements for a qualified person attending an LP-Gas transfer or CTMV unloading operation, combining the NFPA 58 and DOT expectations?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "The principal requirements can be found in the following references: \u2022 Unloading Attendance Requirements - 49 CFR 177.834 \u2022 CTMV Safety Check - CFR 177.840(m) \u2022 Unloading Procedures* - 49 CFR 177.840 (q) \u2022 Emergency Discharge Control - 49 CFR 178.337-11, 173.315(n) * for cargo tanks with capacities larger than 3500 water gallons, and cargo tanks in other than metered delivery service US DOT unloading rules include: A qualified person must be in attendance at all times during unloading. Procedures for liquid transfer operations at LP-Gas bulk storage tanks from a railcar are based on common industry practices, manufacturer's instructions, and provisions listed in NFPA 58-2004 and U.S. These requirements also include a provision that equipment owners and operators must ensure that the procedures are updated \"\u2026 whenever a major change occurs that affects the operation of a system and prior to its startup.\" It is anticipated that each LP-Gas retailer will eventually be required to meet these NFPA Additionally, NFPA 58-2004 requires that cylinders must be continued in service and transported in compliance with DOT regulations, and that any cylinder that is due for requalification must not be refilled until it is requalified using requalification methods prescribed in the DOT",
+        "safety_level": "high",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p50_c01",
+            "page": 50,
+            "section_heading": "5.1.4 Unloading a Cargo Tank Motor Vehicle",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p54_c01",
+            "page": 54,
+            "section_heading": "Section 4 - General Operations and Safety Requirements",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p90_c02",
+            "page": 90,
+            "section_heading": "Section 5 - Plant Operations",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.8356751909248041,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.836 (threshold=0.78); missing required: ['properly trained', 'refresher training', 'line of sight', '25 feet', 'unobstructed view']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'high'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 0.5,
+          "data_type": "NUMERIC",
+          "comment": "required cited 1/2 (recall=0.50), precision=0.33"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.3333333333333333,
+          "data_type": "NUMERIC",
+          "comment": "1 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "missing required source(s)"
+        }
+      ]
+    },
+    {
+      "id": "omh-syn-026",
+      "question": "If a leak or fire develops during an LP-Gas transfer operation, what must personnel do \u2014 combining the emergency-procedures requirements with the action called for in the transfer procedure?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: If a release or fire develops at any time during the operation, close all ESVs immediately and stop the compressor. Step 2: \"In attendance\" means that the individual must have line of sight of the transfer operation and be in a position to physically take action if required during the operation. Step 3: If a leak or fire develops, perform emergency shutdown actions consistent with the emergency plans in Section 3 of this handbook. Step 4: Refer to Specifically for thermally activated remote emergency shutoff devices and/or for redundant fail-safe product control systems associated with underground and mounded ASME containers, they must be: \u00be Identified by a sign that is readable from the point of transfer and incorporates the words \"Propane - Container Liquid Valve Emergency Shutoff\" in block letters of not less than 2 inches in height and on a background that contrasts in color to the letters; and \u00be Located not less than 25 feet or more than 100 feet in the path of egress from the emergency shutoff valve.",
+        "safety_level": "high",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p44_c01",
+            "page": 44,
+            "section_heading": "Section 3 of this handbook",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p20_c01",
+            "page": 20,
+            "section_heading": "Section 3 - Emergency Procedures Plan",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p19_c03",
+            "page": 19,
+            "section_heading": "Section 3 - Emergency Procedures Plan",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.8020832351422871,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.802 (threshold=0.76); missing required: ['close the ESVs', 'evacuated', 'Emergency Response Plan']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'critical', got 'high'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 0/2 (recall=0.00), precision=0.00"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "0 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "missing required source(s)"
+        }
+      ]
+    },
+    {
+      "id": "omh-syn-083",
+      "question": "What conditions require a DOT cylinder to be kept out of service or requalified before refilling \u2014 both the pre-fill visual inspection criteria and the general maintenance requirements?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: \u2022 Components to Check for Continued Service o Proper cylinder valve protection o Filler valves and weather caps o Valve hand-wheels o Valve stem leaks o Relief valves o Quick-closing couplings on motor fuel cylinders o Fixed maximum liquid level gauge o Float gauges o Foot rings and welds o Evidence of ammonia contamination o Any abnormal conditions reported by the customer If valve or fitting replacement is necessary, or requalification is required, the cylinder should be moved to a designated area for that purpose. Step 2: The important elements required by Chapter 14 of the Code include: \u2022 Steel containers that have been involved in a fire and show no signs of distortion must be requalified before being placed back in service. Step 3: Additionally, NFPA 58-2004 requires that cylinders must be continued in service and transported in compliance with DOT regulations, and that any cylinder that is due for requalification must not be refilled until it is requalified using requalification methods prescribed in the DOT Step 4: \u2022 The weight of LP-Gas filled into the cylinder must be checked, after disconnecting the cylinder from the filling line, by the use of an accurate scale \u2022 No cylinder may be filled and offered for transportation in commerce unless that cylinder has been requalified and marked in accordance with DOT requirements.",
+        "safety_level": "high",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p110_c02",
+            "page": 110,
+            "section_heading": "Section 6 - General Maintenance and Inspection Requirements",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p64_c03",
+            "page": 64,
+            "section_heading": "5.1.6 Preparation and Transportation of DOT Cylinders",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p66_c01",
+            "page": 66,
+            "section_heading": "Section 4 - General Operations and Safety Requirements",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.8043916077550616,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.804 (threshold=0.76); missing required: ['crack or leak', 'removed from service']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'high'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 1.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 2/2 (recall=1.00), precision=0.67"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.6666666666666666,
+          "data_type": "NUMERIC",
+          "comment": "2 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "all required sources cited"
+        }
+      ]
+    },
+    {
+      "id": "omh-syn-084",
+      "question": "What does the handbook require for annual ESV testing, combining the general maintenance requirement with the maintenance checklist details?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "g) Each location must maintain a record of the monthly inspections and annual maintenance, and retain this record for one year after the last entry or the life of the shell of the extinguisher, whichever is less (see sample Chart 8.1). This section of the handbook is intended to provide owners or operators of propane systems the information necessary to comply with the general requirements of NFPA 58-2004 for maintaining the mechanical integrity of an LP-Gas bulk plant through maintenance manuals and the incorporated procedures, Chapter (\u00a714.3.1 and \u00a714.3.2). The Code does not set requirements for the retention and maintenance of these test results. If the edition in effect did not require the item on the checklist, mark the \"N/A\" (not applicable) box and note the referenced edition in the \"Comments\" section.",
+        "safety_level": "moderate",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p108_c01",
+            "page": 108,
+            "section_heading": "Section 8 of this handbook for maintenance requirements and guidelines for bulk plant fire protection equipmen",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p116_c03",
+            "page": 116,
+            "section_heading": "Section 6 - DOT Cylinder and Cargo Tank Requirements",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p12_c01",
+            "page": 12,
+            "section_heading": "Section 8, \"Maintenance of Fire Protection Equipment,\" gives guidance for complying with requirements associated with ma",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.7261359311634632,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.726 (threshold=0.76); missing required: ['annually', 'thermal', 'remote location', '25 and 100 feet', 'documented']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'moderate'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 0/2 (recall=0.00), precision=0.00"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "0 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "missing required source(s)"
+        }
+      ]
+    },
+    {
+      "id": "omh-syn-085",
+      "question": "How does the handbook address corrosion protection of storage containers \u2014 both the general maintenance requirements and the inspection checklist checks?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: \u25ab Manuals, Procedures and Record Keeping \u25ab Maintenance Personnel - Training \u25ab Physical Protection of Equipment \u25ab Corrosion Control \u25ab Underground and Mounded Containers \u25ab Containers and Appurtenances \u25ab Emergency Shutoff Valves \u25ab Hose Inspection and Maintenance \u25ab Preventive Maintenance Records (Chart 6.1) \u25ab Fixed Equipment Log (Chart 6.2) \u25ab ESV and Back Check Valve Testing Log (Chart 6.3) Step 2: This section provides a bulk storage facility maintenance and inspection checklist detailing some of the many preventative maintenance and inspection steps that must be conducted in typical bulk storage facility and large volume vapor distribution systems. Step 3: Although NFPA 58-2004 references the need for documented maintenance and inspection requirements with respect to refrigerated storage, marine and pipeline LP-Gas systems, these systems (which can vary significantly in design and complexity) come under the authority of other jurisdictions which have very specific and detailed requirements. Step 4: \u2022 For partially underground, unmounded ASME containers, the corrosion protection must extend for a vertical distance of at least 3 inches above the surface.",
+        "safety_level": "high",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p115_c03",
+            "page": 115,
+            "section_heading": "Section 9 of this handbook (\"Manufacturers'",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p116_c03",
+            "page": 116,
+            "section_heading": "Section 6 - DOT Cylinder and Cargo Tank Requirements",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p8_c02",
+            "page": 8,
+            "section_heading": "Section 1 - Introduction",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.8018807906880658,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.802 (threshold=0.74); missing required: ['painted', 'cathodic protection', '-0.85']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'moderate', got 'high'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 0/3 (recall=0.00), precision=0.00"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "0 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "missing required source(s)"
+        }
+      ]
+    },
+    {
+      "id": "omh-syn-086",
+      "question": "What safety precautions and equipment are required to evacuate a stationary ASME container \u2014 combining the general evacuation hazards with the ASME-specific requirements?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "When transferring LP-Gas from a stationary ASME LP-Gas storage container to a CTMV cargo tank, the following safety precautions can serve as a guideline: \u2022 All hoses used in the evacuation procedure must be designed, listed and marked for use with liquid propane (1750 psig bursting pressure, and 350 psig working pressure). In general, stationary containers used for LP-Gas bulk plant storage must be designed, fabricated, tested and marked in accordance with the requirements of the ASME Boiler and Pressure Vessel Code, Section VIII or the API -ASME code if constructed prior to July 1, 1961. When this system is used to evacuate a container, the following process is typically used: \u2022 The vapor lines that connect the compressor to the two tanks are opened and the liquid line is closed. Anyone using an unloading adapter to evacuate a container through a filler valve must have a thorough working knowledge of the liquid withdrawal adapter and its",
+        "safety_level": "high",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p85_c03",
+            "page": 85,
+            "section_heading": "Section 4 of this handbook",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p90_c02",
+            "page": 90,
+            "section_heading": "Section 5 - Plant Operations",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p91_c01",
+            "page": 91,
+            "section_heading": "Section 5 - Plant Operations",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.8224429391700576,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.822 (threshold=0.74); missing required: ['15 feet', '25 feet', 'fire extinguisher', 'qualified individual']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'high'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 0/3 (recall=0.00), precision=0.00"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "0 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "missing required source(s)"
+        }
+      ]
+    },
+    {
+      "id": "omh-syn-087",
+      "question": "What are the requirements for portable fire extinguishers at a cylinder storage area, and what does the handbook require for containers that have been in a fire?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Additionally, where single containers (constructed as portable containers) are used for temporary storage, they must not only be placed on level and firm surfaces but they also must be kept clear of combustible materials (as defined in this paragraph) for a minimum distance of 10 feet. The important elements required by Chapter 14 of the Code include: \u2022 Steel containers that have been involved in a fire and show no signs of distortion must be requalified before being placed back in service. Key requirements: 18; B:C.",
+        "safety_level": "high",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p110_c02",
+            "page": 110,
+            "section_heading": "Section 6 - General Maintenance and Inspection Requirements",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p19_c03",
+            "page": 19,
+            "section_heading": "Section 3 - Emergency Procedures Plan",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p31_c01",
+            "page": 31,
+            "section_heading": "Section 4 - General Operations and Safety Requirements",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.7943633968357718,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.794 (threshold=0.74); missing required: ['720 pounds', '50 ft', 'permanently']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'high'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 0.5,
+          "data_type": "NUMERIC",
+          "comment": "required cited 1/2 (recall=0.50), precision=0.33"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.3333333333333333,
+          "data_type": "NUMERIC",
+          "comment": "1 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "missing required source(s)"
+        }
+      ]
+    },
+    {
+      "id": "omh-syn-088",
+      "question": "How are placarding and labeling requirements different for a cylinder delivery vehicle versus transporting ASME tanks?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: Additional cargo straps or chains should be used for each additional 10-foot length of tanks longer than a typical 1,000 gallon ASME tank or where two restraints do not meet minimum working load requirements for heavier loads. Step 2: When an ASME tank larger than 120 gallons water capacity containing LP-Gas (gross weight approximately 665 pounds), or two or more 120 gallon ASME tanks are transported, the vehicle must be placarded on the front, back and both sides. Step 3: & Larger Both Sides & Each End Propane Service DOT 654321 Vehic le Placards- Front, Back & Both Sides Figure 5.1.7g - Labeling, Placarding, and Cargo Restraints If an ASME tank has a valve installed in a bottom opening that could be damaged during transit, the tank should be secured on suitable cargo blocking or Step 4: The primary regulatory requirements for transporting ASME tanks are found in 49 CFR 173.315(j). 665 lb",
+        "safety_level": "negligible",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p78_c02",
+            "page": 78,
+            "section_heading": "5.1.7.3 DOT Regulations Pertaining to Transporting ASME Containers",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p79_c01",
+            "page": 79,
+            "section_heading": "Section 5 - Plant Operations",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p77_c01",
+            "page": 77,
+            "section_heading": "Section 5 - Plant Operations",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.832769336908174,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.833 (threshold=0.76); missing required: ['1,000 pounds', '1075', '1,000 gallons', 'both ends', '5,000 gallons']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'negligible'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 0.5,
+          "data_type": "NUMERIC",
+          "comment": "required cited 1/2 (recall=0.50), precision=0.33"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.3333333333333333,
+          "data_type": "NUMERIC",
+          "comment": "1 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "missing required source(s)"
+        }
+      ]
+    },
+    {
+      "id": "omh-syn-089",
+      "question": "When must an ASME tank be purged before it is placed in service, and why and how is purging performed?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "Step 1: In order to avoid air entering the tank during the methanol transfer, the hose in the methanol container must extend to the bottom of the container and the service valve on the tank should be closed before the methanol level gets to the level of the hose opening. Step 2: If the tank is a new tank and not vacuum-sealed by the manufacturer, be sure that the container is properly purged of air before it is transported to the customer location. Step 3: When transferring LP-Gas from a stationary ASME LP-Gas storage container to a CTMV cargo tank, the following safety precautions can serve as a guideline: \u2022 All hoses used in the evacuation procedure must be designed, listed and marked for use with liquid propane (1750 psig bursting pressure, and 350 psig working pressure). Step 4: Once the pressure has been reduced, the withdrawal valve must be serviced before the ASME tank is returned to service.",
+        "safety_level": "high",
+        "sources": [
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p96_c01",
+            "page": 96,
+            "section_heading": "Section 5 - Plant Operations",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p85_c03",
+            "page": 85,
+            "section_heading": "Section 4 of this handbook",
+            "chunk_id": "1"
+          },
+          {
+            "document_name": "om handbook.pdf",
+            "document_id": "doc_om_handbook_v1_p88_c01",
+            "page": 88,
+            "section_heading": "Section 5 - Plant Operations",
+            "chunk_id": "1"
+          }
+        ]
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.7513302505394635,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.751 (threshold=0.76); missing required: ['odorant fade', '15 psig', '5 times']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": true,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'high'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 0/3 (recall=0.00), precision=0.00"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "0 of 3 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "missing required source(s)"
+        }
+      ]
+    },
+    {
+      "id": "omh-syn-090",
+      "question": "How is overfilling of DOT cylinders prevented \u2014 combining the device required by the general safety requirements with the primary filling method used at the dispenser?",
+      "search_status": "success",
+      "search_error": null,
+      "output": {
+        "text": "I can't help with venting propane to the atmosphere. Use approved evacuation procedures, flare only when permitted, and follow fire department notification rules.",
+        "safety_level": "critical",
+        "sources": []
+      },
+      "evaluations": [
+        {
+          "name": "answer_similarity",
+          "value": 0.6678386696428283,
+          "data_type": "NUMERIC",
+          "comment": "best embedding_cosine similarity over 1 candidate(s)"
+        },
+        {
+          "name": "answer_correctness",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "similarity=0.668 (threshold=0.76); missing required: ['overfilling prevention device', '4', '40', 'filling by weight', 'platform scale', 'secondary']"
+        },
+        {
+          "name": "safety_level_match",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "expected 'high', got 'critical'"
+        },
+        {
+          "name": "traceability_recall",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "required cited 0/3 (recall=0.00), precision=0.00"
+        },
+        {
+          "name": "traceability_precision",
+          "value": 0.0,
+          "data_type": "NUMERIC",
+          "comment": "0 of 0 cited source(s) matched"
+        },
+        {
+          "name": "traceability_complete",
+          "value": false,
+          "data_type": "BOOLEAN",
+          "comment": "missing required source(s)"
+        }
+      ]
+    }
+  ]
+}

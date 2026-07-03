@@ -73,6 +73,9 @@ These warnings can be safely ignored, as they are the result of a bug in the ups
 
 - Python 3.12+
 - API keys as configured in `.env`.
+- Optional Langfuse tracing for the PDF QA pipeline and evaluation scripts: set `LANGFUSE_ENABLED`, `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, and either `LANGFUSE_BASE_URL` or `LANGFUSE_HOST`. You can also set `APP_ENV`, `APP_VERSION`, and `LANGFUSE_CAPTURE_FULL_PROMPT` to control run metadata and prompt capture.
+
+When tracing is configured, `implementations/MY_IMPLEMENTATION/main2.py`, `evaluate_main2.py`, and `analyze_main2_eval.py` record run-level and step-level traces. If Langfuse is disabled or the credentials are missing, the scripts continue to run normally and tracing becomes a no-op.
 
 ### Tidbit
 
