@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-eval/ground-truth/schema-2.json",
+  "title": "Grounded QA Ground Truth Dataset (v2)",
+  "description": "Evaluation ground truth for a retrieval-grounded QA agent operating over chunked PDF content. Each item pairs a question with its expected answer, a question category, the expected agent behavior, the safety classification of the question's topic, and (for answerable questions) the document sources the answer must be grounded in. v2 adds 'category' and 'expected_behavior' and makes 'traceability' conditional so out-of-scope / refusal items can be expressed without a grounding source.",
+  "type": "object",
+  "required": ["dataset_version", "items"],
+  "additionalProperties": false,
+  "properties": {
+    "dataset_version": {
+      "type": "string",
+      "description": "Semantic version of this ground truth dataset, e.g. 1.0.0.",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of the dataset and its scope."
+    },
+    "defaults": {
+      "type": "object",
+      "description": "Default evaluation settings applied to every item unless the item overrides them.",
+      "additionalProperties": false,
+      "properties": {
+        "answer_match": { "$ref": "#/$defs/answerMatchConfig" }
+      }
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/groundTruthItem" }
+    }
+  },
+  "$defs": {
+    "groundTruthItem": {
+      "type": "object",
+      "required": ["id", "question", "expected_answer", "category", "safety_level"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable unique identifier for this question.",
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "question": {
+          "type": "string",
+          "description": "The natural-language question posed to the agent.",
+          "minLength": 1
+        },
+        "category": {
+          "$ref": "#/$defs/questionCategory",
+          "description": "The kind of question. Used as a first-class slice for metrics. Distinct from expected_behavior."
+        },
+        "expected_behavior": {
+          "$ref": "#/$defs/expectedBehavior",
+          "description": "What the agent is expected to do. Defaults to 'answer'. Refusal behaviors are used for out-of-scope or unsafe questions that must not be answered from the document."
+        },
+        "expected_answer": {
+          "$ref": "#/$defs/expectedAnswer",
+          "description": "Reference answer (or expected refusal text) evaluated with text-similarity / fuzzy comparison."
+        },
+        "safety_level": {
+          "$ref": "#/$defs/safetyLevel",
+          "description": "Severity of physical harm to the operator or risk to human life if the agent answers this question incorrectly. Evaluated as an exact (direct) match."
+        },
+        "traceability": {
+          "type": "array",
+          "description": "Document source(s) the answer must be grounded in. Required (>=1) when expected_behavior is 'answer'; may be empty or omitted for refusal/out-of-scope items. Each source is evaluated as a direct match.",
+          "items": { "$ref": "#/$defs/source" }
+        },
+        "answer_match": {
+          "$ref": "#/$defs/answerMatchConfig",
+          "description": "Per-item override of the fuzzy answer-matching configuration."
+        },
+        "tags": {
+          "type": "array",
+          "description": "Optional free-form labels for additional slicing (e.g. difficulty, topic). Use 'category' for the primary question type.",
+          "items": { "type": "string" }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "expected_behavior": { "const": "answer" } },
+            "required": ["expected_behavior"]
+          },
+          "then": {
+            "required": ["traceability"],
+            "properties": { "traceability": { "minItems": 1 } }
+          }
+        },
+        {
+          "if": {
+            "not": { "required": ["expected_behavior"] }
+          },
+          "then": {
+            "required": ["traceability"],
+            "properties": { "traceability": { "minItems": 1 } }
+          }
+        }
+      ]
+    },
+    "questionCategory": {
+      "type": "string",
+      "description": "Primary type of the question, for metric slicing.",
+      "enum": ["factual", "procedural", "table", "synthesis", "out_of_scope", "adversarial"]
+    },
+    "expectedBehavior": {
+      "type": "string",
+      "description": "Expected agent behavior. 'answer' = produce a grounded answer; 'refuse_out_of_scope' = state the topic is not covered by the document; 'refuse_unsafe' = decline to answer on safety grounds.",
+      "enum": ["answer", "refuse_out_of_scope", "refuse_unsafe"],
+      "default": "answer"
+    },
+    "expectedAnswer": {
+      "type": "object",
+      "required": ["text"],
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "Canonical reference answer (or expected refusal) text. Compared to the agent output via fuzzy / semantic similarity.",
+          "minLength": 1
+        },
+        "acceptable_variants": {
+          "type": "array",
+          "description": "Alternative phrasings that are also fully correct. The agent's answer is scored against the best-matching variant.",
+          "items": { "type": "string" }
+        },
+        "must_include": {
+          "type": "array",
+          "description": "Key facts/terms that must appear (fuzzily) in a correct answer regardless of phrasing. For refusal items, use refusal markers (e.g. 'not covered in this handbook').",
+          "items": { "type": "string" }
+        },
+        "must_not_include": {
+          "type": "array",
+          "description": "Phrases or claims that, if present, mark the answer incorrect (e.g. hallucinated or unsafe content).",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "safetyLevel": {
+      "type": "string",
+      "description": "Severity of physical harm to the operator or risk to human life if the agent answers this question incorrectly, from no safety impact to potentially fatal.",
+      "enum": ["negligible", "low", "moderate", "high", "critical"]
+    },
+    "source": {
+      "type": "object",
+      "description": "A single grounding source. All listed fields are compared as direct (exact) matches.",
+      "required": ["document_name", "document_id", "page", "section_heading"],
+      "additionalProperties": false,
+      "properties": {
+        "document_name": {
+          "type": "string",
+          "description": "Display name / file name of the source document, e.g. handbook.pdf.",
+          "minLength": 1
+        },
+        "document_id": {
+          "type": "string",
+          "description": "Stable document identifier used in the vector store / ingestion pipeline.",
+          "minLength": 1
+        },
+        "page": {
+          "type": "integer",
+          "description": "1-based page number in the source PDF.",
+          "minimum": 1
+        },
+        "section_heading": {
+          "type": "string",
+          "description": "Section heading the supporting chunk belongs to.",
+          "minLength": 1
+        },
+        "chunk_id": {
+          "type": "string",
+          "description": "Optional ID of the specific chunk in the vector store, if available. May be unstable across re-ingestion; prefer page + section_heading as authoritative keys."
+        },
+        "required": {
+          "type": "boolean",
+          "description": "Whether citing this source is mandatory for full traceability credit. Defaults to true.",
+          "default": true
+        }
+      }
+    },
+    "answerMatchConfig": {
+      "type": "object",
+      "description": "Configuration for the fuzzy answer comparison.",
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "type": "string",
+          "description": "Similarity method to use when scoring the answer.",
+          "enum": ["token_set_ratio", "levenshtein", "rouge_l", "embedding_cosine"],
+          "default": "embedding_cosine"
+        },
+        "threshold": {
+          "type": "number",
+          "description": "Minimum normalized similarity (0-1) required to count the answer as correct.",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 0.8
+        },
+        "case_sensitive": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    }
+  }
+}
