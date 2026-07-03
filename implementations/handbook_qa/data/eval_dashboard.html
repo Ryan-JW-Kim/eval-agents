@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Handbook QA — Evaluation Dashboard</title>
+<style>
+  :root {
+    --bg: #eef1f5;
+    --panel: #ffffff;
+    --panel2: #f6f8fa;
+    --ink: #1a1f2b;
+    --muted: #667085;
+    --line: #e3e8ef;
+    --good: #1e874b;
+    --warn: #c77700;
+    --bad: #c62828;
+    --accent: #b3000f;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+  }
+  .slide {
+    width: 1280px;
+    height: 720px;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 40px 48px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 12px 40px rgba(16,24,40,0.12);
+    border-top: 5px solid var(--accent);
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 2px solid var(--line);
+    padding-bottom: 16px;
+  }
+  header h1 { font-size: 30px; font-weight: 700; letter-spacing: 0.2px; }
+  header h1 span { color: var(--accent); }
+  header .meta { text-align: right; color: var(--muted); font-size: 13px; line-height: 1.5; }
+  header .meta b { color: var(--ink); }
+
+  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 24px; }
+  .kpi {
+    background: var(--panel);
+    border-radius: 12px;
+    padding: 20px 22px;
+    border: 1px solid var(--line);
+    box-shadow: 0 1px 3px rgba(16,24,40,0.04);
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi .label { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; }
+  .kpi .value { font-size: 44px; font-weight: 700; margin-top: 6px; line-height: 1; }
+  .kpi .sub { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  .kpi .bar { height: 7px; border-radius: 4px; background: var(--line); margin-top: 14px; overflow: hidden; }
+  .kpi .bar > i { display: block; height: 100%; border-radius: 4px; }
+  .good { color: var(--good); }  .bar-good { background: var(--good); }
+  .warn { color: var(--warn); }  .bar-warn { background: var(--warn); }
+  .bad  { color: var(--bad);  }  .bar-bad  { background: var(--bad); }
+
+  .lower { display: grid; grid-template-columns: 1.15fr 1fr; gap: 22px; margin-top: 26px; flex: 1; }
+  .card {
+    background: var(--panel);
+    border-radius: 12px;
+    padding: 20px 24px;
+    border: 1px solid var(--line);
+    box-shadow: 0 1px 3px rgba(16,24,40,0.04);
+  }
+  .card h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--accent); margin-bottom: 14px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  td { padding: 9px 0; border-bottom: 1px solid var(--line); }
+  td.metric { color: var(--ink); }
+  td.val { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+  tr:last-child td { border-bottom: none; }
+
+  .axes { display: flex; flex-direction: column; gap: 16px; }
+  .axis .top { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px; }
+  .axis .top b { font-variant-numeric: tabular-nums; }
+  .track { height: 10px; border-radius: 5px; background: var(--line); overflow: hidden; }
+  .track > i { display: block; height: 100%; border-radius: 5px; }
+
+  code { background: var(--panel2); border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; font-size: 0.9em; }
+
+  footer { margin-top: 18px; display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 12px; }
+  .pill { display: inline-block; padding: 3px 10px; border-radius: 999px; background: var(--panel2); border: 1px solid var(--line); color: var(--ink); font-size: 12px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <header>
+      <h1>Handbook QA — <span>Grounded QA Evaluation</span></h1>
+      <div class="meta">
+        Dataset <b>OMHandbook-QA</b> · <b>100</b> items<br/>
+        Agent <b>gemini-2.5-flash</b> · Vertex AI Search grounding<br/>
+        Run <b>2026-07-02</b> · tracked in Langfuse
+      </div>
+    </header>
+
+    <!-- Headline KPIs -->
+    <div class="kpis">
+      <div class="kpi">
+        <div class="label">Answer Similarity</div>
+        <div class="value good">0.89</div>
+        <div class="sub">mean semantic cosine · 100 items</div>
+        <div class="bar"><i class="bar-good" style="width:89%"></i></div>
+      </div>
+      <div class="kpi">
+        <div class="label">Answer Correctness</div>
+        <div class="value warn">50%</div>
+        <div class="sub">50 / 100 items passed threshold</div>
+        <div class="bar"><i class="bar-warn" style="width:50%"></i></div>
+      </div>
+      <div class="kpi">
+        <div class="label">Safety Level Match</div>
+        <div class="value warn">62%</div>
+        <div class="sub">62 / 100 exact harm-level match</div>
+        <div class="bar"><i class="bar-warn" style="width:62%"></i></div>
+      </div>
+    </div>
+
+    <div class="lower">
+      <!-- Traceability focus -->
+      <div class="card">
+        <h2>Traceability — grounding quality</h2>
+        <div class="axes">
+          <div class="axis">
+            <div class="top"><span>Complete citations</span><b class="bad">20%</b></div>
+            <div class="track"><i class="bar-bad" style="width:20%"></i></div>
+          </div>
+          <div class="axis">
+            <div class="top"><span>Recall (mean)</span><b class="bad">0.20</b></div>
+            <div class="track"><i class="bar-bad" style="width:20.3%"></i></div>
+          </div>
+          <div class="axis">
+            <div class="top"><span>Precision (mean)</span><b class="bad">0.01</b></div>
+            <div class="track"><i class="bar-bad" style="width:1.4%"></i></div>
+          </div>
+        </div>
+        <p style="margin-top:16px; font-size:12.5px; color:var(--muted); line-height:1.5;">
+          Low traceability is a known <b style="color:var(--ink)">ID-mapping gap</b>, not a model failure:
+          the live datastore emits <code>doc_om_handbook_v1</code> + page-based chunk IDs while
+          ground-truth v3 expects <code>doc_om_handbook_perc</code> + section-based IDs. Rebuilding the
+          datastore from <code>chunks.jsonl</code> is the fix.
+        </p>
+      </div>
+
+      <!-- Scorecard -->
+      <div class="card">
+        <h2>Scorecard · session metrics</h2>
+        <table>
+          <tr><td class="metric">Answer similarity (mean)</td><td class="val good">0.892</td></tr>
+          <tr><td class="metric">Answer correctness (pass rate)</td><td class="val warn">0.500</td></tr>
+          <tr><td class="metric">Safety level match (rate)</td><td class="val warn">0.620</td></tr>
+          <tr><td class="metric">Traceability recall (mean)</td><td class="val bad">0.203</td></tr>
+          <tr><td class="metric">Traceability precision (mean)</td><td class="val bad">0.014</td></tr>
+          <tr><td class="metric">Traceability complete (rate)</td><td class="val bad">0.200</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <footer>
+      <div>
+        <span class="pill">✔ Answers fluent &amp; on-topic</span>
+        <span class="pill" style="margin-left:8px;">➜ Next: rebuild datastore to fix citations</span>
+      </div>
+      <div>Vector Institute · Agentic AI Evaluation Bootcamp</div>
+    </footer>
+  </div>
+</body>
+</html>

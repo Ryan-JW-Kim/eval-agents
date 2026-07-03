@@ -39,8 +39,25 @@ from aieng.agent_evals.evaluation.types import ExperimentResult
 from dotenv import load_dotenv
 
 from implementations.handbook_qa.evaluators import (
+    answer_completeness_evaluator,
     answer_correctness_evaluator,
+    answer_correctness_judge_evaluator,
+    answer_relevance_evaluator,
+    citation_count_evaluator,
+    citation_presence_evaluator,
+    efficiency_evaluator,
+    evidence_grounded_reasoning_evaluator,
+    groundedness_evaluator,
+    keyword_constraints_evaluator,
+    query_quality_evaluator,
+    reasoning_coherence_evaluator,
+    refusal_appropriateness_evaluator,
+    safety_awareness_evaluator,
+    safety_justification_evaluator,
     safety_level_evaluator,
+    safety_level_valid_evaluator,
+    safety_underrated_evaluator,
+    tool_selection_evaluator,
     traceability_evaluator,
 )
 
@@ -94,7 +111,8 @@ def _build_structured_output(response: Any) -> dict[str, Any]:
     Returns
     -------
     dict[str, Any]
-        ``{"text": str, "safety_level": str | None, "sources": list}``.
+        ``{"text": str, "safety_level": str | None, "sources": list,
+        "retrievals": list, "trace": list}``.
     """
 
     def _get(field: str, default: Any) -> Any:
@@ -106,6 +124,8 @@ def _build_structured_output(response: Any) -> dict[str, Any]:
         "text": str(_get("text", response)),
         "safety_level": _get("safety_level", None),
         "sources": _get("sources", []) or [],
+        "retrievals": _get("retrievals", []) or [],
+        "trace": _get("trace", []) or [],
     }
 
 
@@ -276,9 +296,30 @@ async def run_evaluation(
             description="Handbook QA: answer correctness, safety level, and traceability",
             task=make_agent_task(session_id, user_id),
             evaluators=[
+                # Core three-axis evaluators.
                 answer_correctness_evaluator,
                 safety_level_evaluator,
                 traceability_evaluator,
+                # Heuristic battery (rule-based, no LLM calls).
+                safety_level_valid_evaluator,
+                safety_underrated_evaluator,
+                citation_presence_evaluator,
+                citation_count_evaluator,
+                keyword_constraints_evaluator,
+                # LLM-judge over the final output.
+                answer_correctness_judge_evaluator,
+                answer_relevance_evaluator,
+                answer_completeness_evaluator,
+                groundedness_evaluator,
+                safety_justification_evaluator,
+                refusal_appropriateness_evaluator,
+                # LLM-judge over the reasoning trace.
+                reasoning_coherence_evaluator,
+                tool_selection_evaluator,
+                query_quality_evaluator,
+                evidence_grounded_reasoning_evaluator,
+                efficiency_evaluator,
+                safety_awareness_evaluator,
             ],
             max_concurrency=max_concurrency,
         )

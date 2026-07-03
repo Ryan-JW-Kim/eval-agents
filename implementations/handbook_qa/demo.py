@@ -34,8 +34,25 @@ from implementations.handbook_qa.data.langfuse_upload import (
     _load_ground_truth,
 )
 from implementations.handbook_qa.evaluators import (
+    answer_completeness_evaluator,
     answer_correctness_evaluator,
+    answer_correctness_judge_evaluator,
+    answer_relevance_evaluator,
+    citation_count_evaluator,
+    citation_presence_evaluator,
+    efficiency_evaluator,
+    evidence_grounded_reasoning_evaluator,
+    groundedness_evaluator,
+    keyword_constraints_evaluator,
+    query_quality_evaluator,
+    reasoning_coherence_evaluator,
+    refusal_appropriateness_evaluator,
+    safety_awareness_evaluator,
+    safety_justification_evaluator,
     safety_level_evaluator,
+    safety_level_valid_evaluator,
+    safety_underrated_evaluator,
+    tool_selection_evaluator,
     traceability_evaluator,
 )
 
@@ -108,13 +125,20 @@ def _format_value(value: Any) -> str:
 def _run_evaluators(output: dict[str, Any], record: dict[str, Any]) -> list[Evaluation]:
     """Score an agent ``output`` against a ground-truth ``record``.
 
-    Runs the same three item-level graders as the offline experiment and returns
-    a flat list of :class:`Evaluation` results.
+    Runs the same item-level graders as the offline experiment -- the three core
+    axes plus the ported heuristic and LLM-judge batteries -- and returns a flat
+    list of :class:`Evaluation` results. Judge evaluators degrade to nothing when
+    the judge is unavailable or the item is out of scope.
     """
     metadata = record["metadata"]
     expected_output = record["expected_output"]
+    question = record["input"]
+
+    def _many(result: Evaluation | list[Evaluation]) -> list[Evaluation]:
+        return result if isinstance(result, list) else [result]
 
     results: list[Evaluation] = []
+    # Core three-axis evaluators.
     results.extend(
         answer_correctness_evaluator(
             output=output, expected_output=expected_output, metadata=metadata
@@ -122,6 +146,37 @@ def _run_evaluators(output: dict[str, Any], record: dict[str, Any]) -> list[Eval
     )
     results.append(safety_level_evaluator(output=output, metadata=metadata))
     results.extend(traceability_evaluator(output=output, metadata=metadata))
+    # Heuristic battery.
+    results.append(safety_level_valid_evaluator(output=output, metadata=metadata))
+    results.append(safety_underrated_evaluator(output=output, metadata=metadata))
+    results.append(citation_presence_evaluator(output=output, metadata=metadata))
+    results.append(citation_count_evaluator(output=output, metadata=metadata))
+    results.extend(keyword_constraints_evaluator(output=output, metadata=metadata))
+    # LLM-judge (output + trace). Each returns [] when unavailable / out of scope.
+    for judge in (
+        answer_correctness_judge_evaluator,
+        answer_relevance_evaluator,
+        answer_completeness_evaluator,
+        groundedness_evaluator,
+        safety_justification_evaluator,
+        refusal_appropriateness_evaluator,
+        reasoning_coherence_evaluator,
+        tool_selection_evaluator,
+        query_quality_evaluator,
+        evidence_grounded_reasoning_evaluator,
+        efficiency_evaluator,
+        safety_awareness_evaluator,
+    ):
+        results.extend(
+            _many(
+                judge(
+                    input=question,
+                    output=output,
+                    expected_output=expected_output,
+                    metadata=metadata,
+                )
+            )
+        )
     return results
 
 
@@ -171,6 +226,8 @@ async def _on_run(
         "text": response.text,
         "safety_level": response.safety_level,
         "sources": response.sources,
+        "retrievals": response.retrievals,
+        "trace": response.trace,
     }
 
     try:

@@ -18,12 +18,12 @@ The agent is a Google ADK ReAct agent with a single grounding tool
 import logging
 import os
 import re
-import uuid
 from typing import Any
 
 from aieng.agent_evals.configs import Configs
 from aieng.agent_evals.knowledge_qa.event_extraction import (
     extract_final_response,
+    extract_thoughts_from_event,
     extract_tool_calls,
 )
 from google.adk.agents import Agent
@@ -111,6 +111,14 @@ class HandbookAgentResponse(BaseModel):
         Queries the agent issued to ``vertex_search``.
     tool_calls : list[dict[str, Any]]
         Raw tool calls captured from the run.
+    retrievals : list[dict[str, Any]]
+        One entry per search-tool call: ``{"query": str, "results": [...]}`` where
+        each result carries the verbatim ``text`` and its source location. Lets
+        the LLM-judge groundedness eval inspect the evidence behind the answer.
+    trace : list[dict[str, Any]]
+        Ordered reasoning trace of ``thinking`` / ``query`` / ``final_response``
+        steps, each ``{"index", "tool", "tool_input", "tool_output"}``. Consumed
+        by the trace-level LLM-judge evaluators.
     """
 
     text: str
@@ -119,6 +127,8 @@ class HandbookAgentResponse(BaseModel):
     raw_text: str = ""
     search_queries: list[str] = Field(default_factory=list)
     tool_calls: list[dict[str, Any]] = Field(default_factory=list)
+    retrievals: list[dict[str, Any]] = Field(default_factory=list)
+    trace: list[dict[str, Any]] = Field(default_factory=list)
 
 
 def _parse_safety_level(text: str) -> str | None:
@@ -167,6 +177,23 @@ def _extract_search_chunks(event: Any) -> list[dict[str, Any]]:
     return chunks
 
 
+def _chunk_to_result(chunk: dict[str, Any]) -> dict[str, Any]:
+    """Map a raw search chunk into a compact, judge-readable retrieval result.
+
+    Exposes the verbatim ``text`` (the chunk ``content``) and its source
+    location so the groundedness / trace evaluators can inspect the evidence the
+    agent actually retrieved.
+    """
+    return {
+        "chunk_id": chunk.get("chunk_id"),
+        "document_id": chunk.get("document_id"),
+        "page": chunk.get("page"),
+        "section_heading": chunk.get("section_heading", ""),
+        "text": (chunk.get("content") or "").strip(),
+        "score": chunk.get("relevance_score"),
+    }
+
+
 def _to_traceability_sources(chunks: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Map handbook-search chunks into the traceability source shape (de-duplicated).
 
@@ -183,7 +210,9 @@ def _to_traceability_sources(chunks: list[dict[str, Any]]) -> list[dict[str, Any
     -------
     list[dict[str, Any]]
         Source dicts with ``document_name``, ``document_id``, ``page``,
-        ``section_heading`` and ``chunk_id`` (empty/None fields dropped).
+        ``page_end``, ``section_heading`` and ``chunk_id`` (empty/None fields
+        dropped). ``page_end`` is present only for section-level stores and lets
+        the traceability grader match by page span.
     """
     sources: list[dict[str, Any]] = []
     seen: set[tuple[Any, ...]] = set()
@@ -192,6 +221,7 @@ def _to_traceability_sources(chunks: list[dict[str, Any]]) -> list[dict[str, Any
             "document_name": (chunk.get("document_name") or "").strip(),
             "document_id": (chunk.get("document_id") or "").strip(),
             "page": chunk.get("page"),
+            "page_end": chunk.get("page_end"),
             "section_heading": (chunk.get("section_heading") or "").strip(),
             "chunk_id": (chunk.get("chunk_id") or "").strip(),
         }
@@ -245,7 +275,7 @@ class HandbookGroundedAgent:
     Examples
     --------
     >>> agent = HandbookGroundedAgent()
-    >>> response = await agent.answer_async("What is the required hydrostatic test pressure?")
+    >>> response = await agent.answer_async("required hydrostatic test pressure?")
     >>> print(response.text, response.safety_level)
     """
 
@@ -336,14 +366,57 @@ class HandbookGroundedAgent:
         final_response = ""
         tool_calls: list[dict[str, Any]] = []
         chunks: list[dict[str, Any]] = []
+        trace: list[dict[str, Any]] = []
+        retrievals: list[dict[str, Any]] = []
+        # Query steps whose search results have not arrived yet (ADK emits the
+        # function call and its response in separate events), paired FIFO.
+        pending_query_steps: list[dict[str, Any]] = []
 
         async for event in self._runner.run_async(
             user_id="user",
             session_id=session_id,
             new_message=content,
         ):
-            tool_calls.extend(extract_tool_calls(event))
-            chunks.extend(_extract_search_chunks(event))
+            # 1) Reasoning notes surfaced as thought parts.
+            thought = extract_thoughts_from_event(event)
+            if thought:
+                trace.append(
+                    {
+                        "index": len(trace),
+                        "tool": "thinking",
+                        "tool_input": {"thought": thought},
+                        "tool_output": {},
+                    }
+                )
+
+            # 2) Tool calls: record each handbook search as a query step.
+            event_tool_calls = extract_tool_calls(event)
+            tool_calls.extend(event_tool_calls)
+            for call in event_tool_calls:
+                if call.get("name") == SEARCH_TOOL_NAME:
+                    query = str(call.get("args", {}).get("query", ""))
+                    step = {
+                        "index": len(trace),
+                        "tool": "query",
+                        "tool_input": {"query": query},
+                        "tool_output": {"results": []},
+                    }
+                    trace.append(step)
+                    pending_query_steps.append(step)
+
+            # 3) Tool responses: attach retrieved chunks to the earliest pending query.
+            event_chunks = _extract_search_chunks(event)
+            chunks.extend(event_chunks)
+            has_responses = bool(
+                hasattr(event, "get_function_responses") and event.get_function_responses()
+            )
+            if has_responses and pending_query_steps:
+                step = pending_query_steps.pop(0)
+                results = [_chunk_to_result(chunk) for chunk in event_chunks]
+                step["tool_output"]["results"] = results
+                retrievals.append({"query": step["tool_input"]["query"], "results": results})
+
+            # 4) Final response text.
             text = extract_final_response(event)
             if text:
                 final_response = text
@@ -355,13 +428,25 @@ class HandbookGroundedAgent:
             if call.get("name") == SEARCH_TOOL_NAME and call.get("args", {}).get("query")
         ]
 
+        answer_text = _strip_safety_marker(raw_text)
+        trace.append(
+            {
+                "index": len(trace),
+                "tool": "final_response",
+                "tool_input": {"answer_markdown": answer_text},
+                "tool_output": {},
+            }
+        )
+
         return HandbookAgentResponse(
-            text=_strip_safety_marker(raw_text),
+            text=answer_text,
             safety_level=_parse_safety_level(raw_text),
             sources=_to_traceability_sources(chunks),
             raw_text=raw_text,
             search_queries=search_queries,
             tool_calls=tool_calls,
+            retrievals=retrievals,
+            trace=trace,
         )
 
 

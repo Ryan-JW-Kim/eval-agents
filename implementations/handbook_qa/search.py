@@ -100,15 +100,43 @@ def _doc_id_from_chunk_name(name: str) -> str:
 
 
 def _parse_chunk(result: dict[str, Any]) -> dict[str, Any]:
-    """Map a raw CHUNKS-mode result into a grounded-passage dict."""
+    """Map a raw CHUNKS-mode result into a grounded-passage dict.
+
+    Normalizes across the two handbook data store schemas so switching
+    ``VERTEX_AI_DATASTORE_ID`` "just works" for grounding:
+
+    * ``hitachi-vector-bootcamp`` (fine-grained): ``page``, ``section_heading``,
+      ``document_name``, ``document_id``.
+    * ``hitachi-handbook-chunked-bootcamp`` (section-level): ``page_start`` /
+      ``page_end`` (a range), ``heading_text`` / ``title``, ``section_id`` (no
+      ``document_name``).
+
+    Fields are resolved by falling back to the equivalent key in whichever
+    schema is present. ``page`` uses the single ``page`` when available, else the
+    section's ``page_start``; ``page_end`` is preserved so consumers can see the
+    full span of section-level chunks.
+    """
     chunk = result.get("chunk", {}) or {}
     struct = (chunk.get("documentMetadata", {}) or {}).get("structData", {}) or {}
+
+    page = struct.get("page")
+    if page is None:
+        page = struct.get("page_start")
+    section_heading = (
+        struct.get("section_heading")
+        or struct.get("heading_text")
+        or struct.get("title")
+        or ""
+    )
+    document_id = struct.get("document_id") or struct.get("section_id") or ""
+
     return {
         "content": (chunk.get("content") or "").strip(),
-        "page": struct.get("page"),
-        "section_heading": struct.get("section_heading", ""),
+        "page": page,
+        "page_end": struct.get("page_end"),
+        "section_heading": section_heading,
         "document_name": struct.get("document_name", ""),
-        "document_id": struct.get("document_id", ""),
+        "document_id": document_id,
         "chunk_id": _doc_id_from_chunk_name(chunk.get("name", "")),
         "relevance_score": chunk.get("relevanceScore"),
     }
@@ -138,7 +166,10 @@ async def handbook_search(query: str) -> dict[str, Any]:
         - **status** (str): ``"success"`` or ``"error"``.
         - **results** (list[dict]): Ranked handbook chunks, each with:
             - **content** (str): The full text of the handbook passage.
-            - **page** (int | None): 1-based page number in the source PDF.
+            - **page** (int | None): 1-based page number in the source PDF. For
+              section-level stores this is the section's starting page.
+            - **page_end** (int | None): Last page of the chunk's span, when the
+              store chunks at section level (else ``None``).
             - **section_heading** (str): Heading of the section the chunk is in.
             - **document_name** (str): Source document file name.
             - **document_id** (str): Stable document identifier.
